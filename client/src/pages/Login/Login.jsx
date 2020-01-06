@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import CardList from '../../components/LoginCard/CardList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import history from "../../history";
 
 // component
 import { message } from 'antd';
@@ -12,9 +11,6 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 
 const Login = ({ isLogin }) => {
-   if (isLogin) {
-      return <Redirect to="/"></Redirect>
-   }
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
 
@@ -26,6 +22,8 @@ const Login = ({ isLogin }) => {
          case "password":
             setPassword(e.target.value);
             break;
+         default:
+            break;
       }
    }
 
@@ -34,10 +32,10 @@ const Login = ({ isLogin }) => {
          username,
          password
       }
-
       axios.post('/auth/login', loginData)
          .then(res => {
-            if (res.status == 200) {
+            console.log("qweq", res)
+            if (res.status === 200) {
                console.log(res.data)
                window.location = "/"
                message.success(`哈摟！${res.data.user.displayName}`);
@@ -45,6 +43,13 @@ const Login = ({ isLogin }) => {
                message.error(`登入失敗！`);
             }
          })
+         .catch(err => {
+            message.error(err.response.data.error);
+         })
+   }
+
+   if (isLogin) {
+      return <Redirect to="/"></Redirect>
    }
    return (
       <div class="container" style={{ display: "flex", justifyContent: "center" }}>

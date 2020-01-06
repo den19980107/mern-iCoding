@@ -1,6 +1,9 @@
 # config
 config/keys.js
 
+# client
+client/build
+
 # Logs
 
 logs

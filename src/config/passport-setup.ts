@@ -1,19 +1,19 @@
-const FacebookStrategy = require('passport-facebook').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
-const keys = require("./keys");
-const User = require("../models/user");
+import { Strategy as FacebookStrategy } from 'passport-facebook'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { Strategy as LocalStrategy } from 'passport-local'
+import bcrypt from 'bcrypt';
+import keys from './keys';
+import { User, UserDocument } from '../models/user';
 
 module.exports = function (passport) {
   // serialize the user.id to save in the cookie session
   // so the browser will remember the user when login
-  passport.serializeUser((user, done) => {
+  passport.serializeUser((user: UserDocument, done) => {
     done(null, user.id);
   });
 
   // deserialize the cookieUserId to user in the database
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser((id: string, done) => {
     User.findById(id)
       .then(user => {
         done(null, user);

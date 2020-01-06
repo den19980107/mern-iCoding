@@ -1,15 +1,16 @@
-const cookieSession = require("cookie-session");
-const express = require("express");
+import cookieSession from 'cookie-session';
+import express from 'express';
+import bodyParser from 'body-parser';
+import authRoutes from './routes/auth-routes';
+import mongoose from 'mongoose';
+import keys from './config/keys';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import expressValidator from 'express-validator';
+import passport from 'passport';
+import path from 'path';
 const app = express();
 const port = process.env.PORT || 5000;
-const passport = require("passport");
-const bodyParser = require('body-parser')
-const authRoutes = require("./routes/auth-routes");
-const mongoose = require("mongoose");
-const keys = require("./config/keys");
-const cors = require("cors");
-const cookieParser = require("cookie-parser"); // parse cookie header
-const expressValidator = require('express-validator');
 
 // connect to mongodb
 mongoose.connect(keys.MONGODB.MONGODB_URI, () => {
@@ -51,6 +52,8 @@ app.use(
 app.use("/auth", authRoutes);
 app.use('/user', require('./routes/user'))
 
-
+app.get('/', function (req, res) {
+  res.sendfile(path.join(__dirname, '../client/build', 'index.html'));
+})
 // connect react to nodejs express server
 app.listen(port, () => console.log(`Server is running on port ${port}!`));

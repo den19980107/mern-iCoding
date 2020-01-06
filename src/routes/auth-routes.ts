@@ -1,13 +1,14 @@
-const router = require("express").Router();
-const passport = require("passport");
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
-const bcrypt = require('bcryptjs');
-
+import express, { Request, Response, NextFunction } from 'express';
+import passport from 'passport';
+import bcrypt from 'bcrypt';
 // model
-const User = require('../models/user');
+import { User, UserDocument } from '../models/user';
+
+const router = express.Router();
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 // when login is successful, retrieve user info
-router.get("/login/success", (req, res) => {
+router.get("/login/success", (req: Request, res: Response) => {
   console.log(req.user)
   if (req.user) {
     res.json({
@@ -20,7 +21,7 @@ router.get("/login/success", (req, res) => {
 });
 
 // when login failed, send failed msg
-router.get("/login/failed", (req, res) => {
+router.get("/login/failed", (req: Request, res: Response) => {
   res.status(401).json({
     success: false,
     message: "user failed to authenticate."
@@ -28,7 +29,7 @@ router.get("/login/failed", (req, res) => {
 });
 
 // When logout, redirect to client
-router.get("/logout", (req, res) => {
+router.get("/logout", (req: Request, res: Response) => {
   req.logout();
   res.redirect(CLIENT_HOME_PAGE_URL);
 });
@@ -56,7 +57,7 @@ router.get(
 
 
 // local Strategy
-router.post('/register', function (req, res) {
+router.post('/register', function (req: Request, res: Response) {
   const { displayName, username, email, password, password2 } = req.body;
   //確認是否都有值
   req.checkBody("displayName", "姓名未填寫").notEmpty()
@@ -111,7 +112,7 @@ router.post('/register', function (req, res) {
 
 })
 
-router.post('/login', function (req, res, next) {
+router.post('/login', function (req: Request, res: Response, next: NextFunction) {
   req.checkBody('username', '帳號未填寫').notEmpty();
   req.checkBody('password', '密碼未填寫').notEmpty();
   let errors = req.validationErrors();
@@ -120,10 +121,10 @@ router.post('/login', function (req, res, next) {
       errors: errors
     })
   } else {
-    passport.authenticate('local', function (err, user, info) {
+    passport.authenticate('local', function (err: Error, user: UserDocument, info) {
       if (err) { return next(err) }
       if (!user) {
-        return res.status(500).json({ error: "沒有此使用者" })
+        res.status(404).json({ error: "沒有此使用者" })
       }
       req.logIn(user, function (err) {
         if (err) { return next(err) }
@@ -140,4 +141,4 @@ router.post('/login', function (req, res, next) {
   }
 })
 
-module.exports = router;
+export = router;
