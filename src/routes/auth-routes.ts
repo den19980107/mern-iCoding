@@ -17,6 +17,8 @@ router.get("/login/success", (req: Request, res: Response) => {
       user: req.user,
       cookies: req.cookies
     });
+  } else {
+    res.status(500).json({ errors: [{ msg: "not login" }] })
   }
 });
 
@@ -86,7 +88,8 @@ router.post('/register', function (req: Request, res: Response) {
         username: username,
         password: password,
         email: email,
-        accountType: "local"
+        accountType: "local",
+        avatarsUrl: `https://api.adorable.io/avatars/285/${email}`
       })
 
       bcrypt.genSalt(10, function (err, salt) {

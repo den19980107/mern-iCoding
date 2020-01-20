@@ -26,7 +26,6 @@ const login = (type) => {
 }
 
 const Card = ({ type }) => {
-   console.log(type)
    return (
       <div style={{ display: "flex", marginTop: "1rem", border: "0.5px solid #cccc" }} onClick={() => login(type)}>
          <div

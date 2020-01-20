@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import history from "../history";
 const context = createContext(null);
 
 const UserProvider = ({ children }) => {
@@ -15,11 +16,13 @@ const UserProvider = ({ children }) => {
          }
       })
          .then(response => {
-            if (response.status === 200) return response.json();
-            throw new Error("failed to authenticate user");
+            if (response.status === 200) {
+               return response.json();
+            } else {
+               history.push("/login")
+            }
          })
          .then(responseJson => {
-            console.log(responseJson.user)
             setUser(responseJson.user)
          })
          .catch(error => {

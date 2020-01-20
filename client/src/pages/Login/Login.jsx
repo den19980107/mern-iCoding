@@ -48,9 +48,6 @@ const Login = ({ isLogin }) => {
          })
    }
 
-   if (isLogin) {
-      return <Redirect to="/"></Redirect>
-   }
    return (
       <div class="container" style={{ display: "flex", justifyContent: "center" }}>
          <div style={{ width: "500px", marginTop: "2rem" }}>

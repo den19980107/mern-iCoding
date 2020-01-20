@@ -6,7 +6,6 @@ const CardList = () => {
    return (
       <div>
          {loginMethods.map(method => {
-            console.log(method)
             return <Card key={method} type={method}></Card>
          })}
       </div>

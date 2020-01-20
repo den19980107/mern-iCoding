@@ -38,9 +38,11 @@ module.exports = function (passport) {
     if (!currentUser) {
       const newUser = await new User({
         accountId: userData._json.id,
+        displayName: userData._json.displayName ? userData._json.displayName : userData._json.id,
         username: userData._json.displayName ? userData._json.displayName : userData._json.id,
         email: userData._json.email ? userData._json.email : null,
-        accountType: "facebook"
+        accountType: "facebook",
+        avatarsUrl: `https://api.adorable.io/avatars/285/${userData._json.id}`
       }).save();
       if (newUser) {
         done(null, newUser);
@@ -69,9 +71,11 @@ module.exports = function (passport) {
     if (!currentUser) {
       const newUser = await new User({
         accountId: userData.id,
+        displayName: userData._json.name ? userData._json.name : userData.id,
         username: userData._json.name ? userData._json.name : userData.id,
         email: userData._json.email ? userData._json.email : null,
-        accountType: "google"
+        accountType: "google",
+        avatarsUrl: `https://api.adorable.io/avatars/285/${userData.id}`
       }).save();
       if (newUser) {
         done(null, newUser);

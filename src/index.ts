@@ -1,7 +1,6 @@
 import cookieSession from 'cookie-session';
 import express from 'express';
 import bodyParser from 'body-parser';
-import authRoutes from './routes/auth-routes';
 import mongoose from 'mongoose';
 import keys from './config/keys';
 import cors from 'cors';
@@ -9,6 +8,13 @@ import cookieParser from 'cookie-parser';
 import expressValidator from 'express-validator';
 import passport from 'passport';
 import path from 'path';
+
+// import routes
+import authRoutes from './routes/auth-routes';
+import userRoutes from './routes/user';
+import classRoutes from './routes/class';
+import codeRoute from './routes/coding';
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -50,7 +56,9 @@ app.use(
 
 // set up routes
 app.use("/auth", authRoutes);
-app.use('/user', require('./routes/user'))
+app.use('/user', userRoutes);
+app.use('/class', classRoutes);
+app.use('/coding', codeRoute);
 
 app.get('/', function (req, res) {
   res.sendfile(path.join(__dirname, '../client/build', 'index.html'));
