@@ -6,10 +6,12 @@ export type ClassDocument = mongoose.Document & {
    outline: string
    teacherId: string
    credit: number
-   classTime: Date
+   classTime: Array<string>
    classRoom: string
    isLaunched: boolean
    coverImage: string
+   introduction: string
+   introVideoUrl: string
 };
 
 let classSchema = new mongoose.Schema({
@@ -26,7 +28,7 @@ let classSchema = new mongoose.Schema({
       type: Number
    },
    classTime: {
-      type: Date
+      type: Array
    },
    classRoom: {
       type: String
@@ -37,6 +39,12 @@ let classSchema = new mongoose.Schema({
    },
    coverImage: {
       type: String,
+   },
+   introduction: {
+      type: String
+   },
+   introVideoUrl: {
+      type: String
    }
 }, { timestamps: true })
 
@@ -174,6 +182,14 @@ export class ClassModel extends modelHelper {
    static async updateCoverImage(classId: string, newImg: string): Promise<boolean> {
       const updateData = {
          coverImage: newImg
+      }
+      let res = await this.update(classId, updateData, Class);
+      return res;
+   }
+
+   static async updateIntroduction(classId: string, newIntroduction: string): Promise<boolean> {
+      const updateData = {
+         introduction: newIntroduction
       }
       let res = await this.update(classId, updateData, Class);
       return res;

@@ -14,6 +14,8 @@ import authRoutes from './routes/auth-routes';
 import userRoutes from './routes/user';
 import classRoutes from './routes/class';
 import codeRoute from './routes/coding';
+import videoRoute from './routes/video';
+import imageRoute from './routes/image';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -59,6 +61,8 @@ app.use("/auth", authRoutes);
 app.use('/user', userRoutes);
 app.use('/class', classRoutes);
 app.use('/coding', codeRoute);
+app.use('/video', videoRoute);
+app.use('/image', imageRoute)
 
 app.get('/', function (req, res) {
   res.sendfile(path.join(__dirname, '../client/build', 'index.html'));

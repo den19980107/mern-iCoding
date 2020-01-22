@@ -37,10 +37,19 @@ router.post('/create', async function (req: Request, res: Response) {
    }
    let classInfo: ClassDocument = req.body;
    classInfo.isLaunched = false;
+   classInfo.teacherId = req.user._id
+
    if (!classInfo.coverImage) {
       classInfo.coverImage = "https://i.imgur.com/cCAuz8C.jpg";
+   } else {
+      classInfo.coverImage = req.headers.origin + '/image/' + classInfo.coverImage;
    }
-   let isSuccess = ClassModel.createClass(classInfo);
+
+   if (classInfo.introVideoUrl) {
+      classInfo.introVideoUrl = req.headers.origin + '/video/' + classInfo.introVideoUrl;
+   }
+
+   let isSuccess = await ClassModel.createClass(classInfo);
    if (isSuccess) {
       res.status(200).json({ message: "新增成功！" })
    } else {

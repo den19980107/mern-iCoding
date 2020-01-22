@@ -25,6 +25,7 @@ db.once('open', function () {
 
 //create storage engine
 
+// img
 const imgStorage = new GridFsStorage({
    url: config.MONGODB.MONGODB_URI,
    file: (req, file) => {
@@ -47,13 +48,44 @@ const imgStorage = new GridFsStorage({
 const imgUploader = multer({
    storage: imgStorage
 });
+// end of img
+
+// video 
+const videoStorage = new GridFsStorage({
+   url: config.MONGODB.MONGODB_URI,
+   file: (req, file) => {
+      return new Promise((resolve, reject) => {
+         crypto.randomBytes(16, (err, buf) => {
+            if (err) {
+               return reject(err);
+            }
+            const filename = buf.toString('hex') + path.extname(file.originalname);
+            const fileInfo = {
+               filename: filename,
+               bucketName: 'videos'
+            };
+            resolve(fileInfo);
+         });
+      });
+   }
+});
+
+const videoUploader = multer({
+   storage: videoStorage
+});
+
+// end of video
+
 
 
 const image = "image";
+const video = "video"
 export function getUploader(key: string) {
    switch (key) {
       case image:
          return imgUploader
+      case video:
+         return videoUploader
    }
 }
 

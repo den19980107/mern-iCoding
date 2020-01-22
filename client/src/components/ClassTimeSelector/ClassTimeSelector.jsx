@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import { Select, Button, TimePicker } from 'antd';
+import uuid from 'uuid';
+import { Select, Button, TimePicker, Icon } from 'antd';
 import { Alert } from 'react-bootstrap'
 import moment from 'moment';
 
@@ -8,29 +8,52 @@ const { Option } = Select;
 const format = 'HH:mm';
 
 class ClassTimeSelector extends Component {
-   state = {
-      classTime: ["禮拜一 08:00 ~ 09:00"],
-      newDay: "禮拜一",
-      newStart: "08:00",
-      newEnd: "09:00"
+   constructor(props) {
+      super(props)
+      this.state = {
+         classTime: props.value,
+         newDay: "禮拜一",
+         newStart: "08:00",
+         newEnd: "09:00"
+      }
    }
-   onSetNewDay = (e) => {
-      // setNewDay(e)
+
+   onSetNewDay = (newDayString) => {
+      this.setState({ newDay: newDayString })
    }
 
    onSetNewStart = (time, timeString) => {
-      console.log(timeString)
+      this.setState({ newStart: timeString })
    }
 
    onSetNewEnd = (time, timeString) => {
-      console.log(timeString)
+      this.setState({ newEnd: timeString })
    }
 
    onAddNewClassTime = () => {
       const oldClassTime = this.state.classTime;
-      let newClassTime = `${this.state.newDay} ${this.state.newStart} ~ ${this.state.newEnd}`
+      let newClassTime = {
+         time: `${this.state.newDay} ${this.state.newStart} ~ ${this.state.newEnd}`,
+         id: uuid()
+      }
       // let newClassTimes = this.state.classTime.push(newClassTime)
-      this.setState({ classTime: [...oldClassTime, newClassTime] })
+      this.setState({ classTime: [...oldClassTime, newClassTime] }, () => {
+         this.handleChange()
+      })
+   }
+
+   onDeleteClassTime = (id) => {
+      let deletedClassTime = this.state.classTime.filter(classTime => {
+         return classTime.id != id
+      })
+      this.setState({ classTime: deletedClassTime }, () => {
+         this.handleChange()
+      })
+   }
+
+   // send data to parent
+   handleChange = () => {
+      this.props.onChange(this.state.classTime)
    }
    render() {
       return (
@@ -63,10 +86,13 @@ class ClassTimeSelector extends Component {
             </div>
 
             <div className="mt-3">
-               {this.state.classTime.map(time => {
+               {this.state.classTime.map(timeData => {
                   return (
-                     <Alert variant='info'>
-                        {time}
+                     <Alert variant='info' style={{ display: "flex", justifyContent: "space-between" }}>
+                        {timeData.time}
+                        <div style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
+                           <Icon type="close" onClick={() => { this.onDeleteClassTime(timeData.id) }} />
+                        </div>
                      </Alert>
                   )
                })}

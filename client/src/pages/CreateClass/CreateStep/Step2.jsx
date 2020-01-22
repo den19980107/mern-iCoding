@@ -4,14 +4,17 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import ClassTimeSelector from '../../../components/ClassTimeSelector/ClassTimeSelector';
 
-const Step2 = () => {
+const Step2 = ({ handleChange, handleAddClassTime, value }) => {
+   function handleClassTimeChange(value) {
+      handleAddClassTime(value)
+   }
    return (
       <div className="row container">
          <div className="col">
             <Form>
                <Form.Group >
                   <Form.Label>介紹一下你的課程吧！</Form.Label>
-                  <Form.Control as="textarea" rows="12" />
+                  <Form.Control as="textarea" rows="12" onChange={handleChange("introduction")} value={value.introduction} />
                </Form.Group>
             </Form>
          </div>
@@ -19,7 +22,7 @@ const Step2 = () => {
             <Form>
                <Form.Group>
                   <Form.Label>設定課程學分</Form.Label>
-                  <Form.Control as="select">
+                  <Form.Control as="select" onChange={handleChange("credit")} value={value.credit}>
                      <option>0</option>
                      <option>1</option>
                      <option>2</option>
@@ -30,9 +33,9 @@ const Step2 = () => {
                </Form.Group>
                <Form.Group>
                   <Form.Label>設定課程教室</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control type="text" onChange={handleChange("classRoom")} value={value.classRoom} />
                </Form.Group>
-               <ClassTimeSelector></ClassTimeSelector>
+               <ClassTimeSelector onChange={handleClassTimeChange} value={value.classTime}></ClassTimeSelector>
             </Form>
          </div>
       </div>
