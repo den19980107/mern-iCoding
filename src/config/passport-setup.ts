@@ -38,7 +38,7 @@ module.exports = function (passport) {
     if (!currentUser) {
       const newUser = await new User({
         accountId: userData._json.id,
-        displayName: userData._json.displayName ? userData._json.displayName : userData._json.id,
+        displayName: userData._json.displayName ? userData._json.displayName : userData.name.familyName + userData.name.givenName,
         username: userData._json.displayName ? userData._json.displayName : userData._json.id,
         email: userData._json.email ? userData._json.email : null,
         accountType: "facebook",

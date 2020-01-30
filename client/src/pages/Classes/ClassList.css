@@ -1,0 +1,9 @@
+.class-List-row{
+   display: flex;
+}
+@media only screen and (max-width: 600px) {
+   .class-List-row{
+      display: block;
+      margin: 0 !important;
+   }
+}

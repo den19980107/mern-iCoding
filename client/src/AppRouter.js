@@ -3,16 +3,18 @@ import React, { Component } from 'react';
 import { Router, Route } from "react-router-dom";
 import UserProvider from "./context/UserProvider";
 import history from "./history";
-import PrivateRoute from './routes/PrivateRoute';
+import ClassContextRoute from './routes/ClassContextRoute'
 
 import MenuBar from './components/MenuBar/MenuBar'
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import _ from "lodash";
-import Class from './pages/Class/Class';
-import { register } from 'ts-node';
+import Class from './pages/Classes/Class';
 import CreateClass from './pages/CreateClass/CreateClass';
+import NotFound from './pages/NotFound/NotFound';
+import Profile from './pages/Profile/Profile';
+
+import _ from "lodash";
 
 class AppRouter extends Component {
   state = {
@@ -59,10 +61,13 @@ class AppRouter extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/class" component={Class} />
           <Route exact path="/createClass" component={CreateClass} />
+          <Route path="/class/:id" component={ClassContextRoute} />
+          <Route exact path="/profile" component={Profile}></Route>
         </UserProvider>
 
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/notfound" component={NotFound} />
       </Router>
     )
   }

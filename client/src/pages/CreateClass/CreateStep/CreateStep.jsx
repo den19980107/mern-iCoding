@@ -19,7 +19,7 @@ const CreateStep = () => {
    const [classTime, setClassTime] = useState([]);
    const [classRoom, setClassRoom] = useState("");
    const [isLaunched, setIsLaunched] = useState(false);
-   const [coverImage, setCoverImage] = useState(null);
+   const [coverImageUrl, setCoverImageUrl] = useState(null);
    const [introduction, setIntroduction] = useState("");
    const [introVideoUrl, setIntroVideoUrl] = useState(null)
    function next() {
@@ -82,11 +82,15 @@ const CreateStep = () => {
    };
 
    const handleImageUpload = (input, value) => {
-      setCoverImage(value);
+      setCoverImageUrl(value);
    }
 
-   const handleVideoUpload = (id) => {
-      setIntroVideoUrl(id)
+   const handelIntroduction = (value) => {
+      setIntroduction(value)
+   }
+
+   const handleVideoUpload = (url) => {
+      setIntroVideoUrl(url)
    }
 
    const handleAddClassTime = (value) => {
@@ -101,7 +105,7 @@ const CreateStep = () => {
          classTime,
          classRoom,
          isLaunched,
-         coverImage,
+         coverImage: coverImageUrl,
          introduction,
          introVideoUrl
       }
@@ -122,7 +126,7 @@ const CreateStep = () => {
    }
 
    // const { name, outline, teacherId, credit, classTime, classRoom, isLaunched, coverImage } = classData;
-   const value = { name, outline, credit, classTime, classRoom, isLaunched, coverImage, introduction }
+   const value = { name, outline, credit, classTime, classRoom, isLaunched, coverImage: coverImageUrl, introduction }
    const steps = [
       {
          title: '第一步',
@@ -130,7 +134,7 @@ const CreateStep = () => {
       },
       {
          title: '第二步',
-         content: <Step2 value={value} handleChange={handleChange} handleAddClassTime={handleAddClassTime} ></Step2>,
+         content: <Step2 value={value} handleChange={handleChange} handelIntroduction={handelIntroduction} handleAddClassTime={handleAddClassTime} ></Step2>,
       },
       {
          title: '最後一步',

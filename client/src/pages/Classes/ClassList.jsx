@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ClassItem from './ClassItem';
 import axios from 'axios';
-
+import './ClassList.css'
 class ClassList extends Component {
    state = {
       classDatas: []
@@ -21,7 +21,7 @@ class ClassList extends Component {
    render() {
       const { classDatas } = this.state
       return (
-         <div className="row" style={{ margin: "2rem" }}>
+         <div className="row" style={{ margin: "2rem" }} className="class-List-row">
             {
                classDatas.map(function (item, i) {
                   return (

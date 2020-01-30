@@ -187,12 +187,32 @@ export class ClassModel extends modelHelper {
       return res;
    }
 
+   /**
+    * 更新自我介紹
+    * @param classId 
+    * @param newIntroduction 
+    */
    static async updateIntroduction(classId: string, newIntroduction: string): Promise<boolean> {
       const updateData = {
          introduction: newIntroduction
       }
       let res = await this.update(classId, updateData, Class);
       return res;
+   }
+
+   /**
+    * 取得user開課清單
+    * @param userId 
+    */
+   static async getUserClasses(userId: string): Promise<Array<ClassDocument>> {
+      let classes = await Class.find({
+         teacherId: userId
+      })
+      if (classes) {
+         return classes
+      } else {
+         return []
+      }
    }
 }
 

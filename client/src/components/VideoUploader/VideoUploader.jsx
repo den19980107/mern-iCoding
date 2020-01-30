@@ -6,7 +6,7 @@ const VideoUploader = ({ onChange }) => {
       onChange({ file, fileList }) {
          if (file.status !== 'uploading') {
             if (file.xhr.status == 200) {
-               onChange(file.response.introVideoId)
+               onChange(file.response.videoUrl)
             }
          }
       },

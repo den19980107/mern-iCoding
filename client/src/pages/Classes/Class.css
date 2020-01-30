@@ -1,0 +1,6 @@
+@media only screen and (max-width: 600px) {
+   .class-container{
+      margin: 0;
+      padding: 0;
+   }
+}

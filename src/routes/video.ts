@@ -66,7 +66,7 @@ router.post('/upload', videoUpload.any(), function (req: Request, res: Response)
 
             let isSuccess = await VideoModel.createVideo(newVideo);
             if (isSuccess) {
-               res.status(200).json({ message: "新增成功", introVideoId: newVideo._id })
+               res.status(200).json({ message: "新增成功", videoUrl: req.headers.origin + '/video/' + newVideo._id })
             } else {
                res.status(500).json({ errors: [{ msg: "新增失敗" }] })
             }

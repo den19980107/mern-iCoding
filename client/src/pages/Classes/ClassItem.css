@@ -7,6 +7,7 @@
    width: 18rem;
    margin-bottom: 4rem;
    box-sizing: border-box;
+   background: white;
 }
 
 .classCard > .coverImageContainer{
@@ -55,4 +56,43 @@
    display: -webkit-box;
    -webkit-line-clamp: 4;
    -webkit-box-orient: vertical;
+}
+
+
+@media only screen and (max-width: 600px) {
+   .classCard{
+      width: 100%;
+      height: 5rem;
+      margin-bottom: 1rem;
+      display: flex;
+   }
+   .classCard .coverImageContainer{
+      height: 100%;
+      width: auto;
+   }
+
+   .classCard > .coverImageContainer > .converImage{
+      /* width: 100%; */
+   }
+
+   .class-avatar{
+      display: none;
+   }
+
+   .classCard > .classNameContainer{
+      width: 80%;
+      height: 100%;
+   }
+
+   .classCard > .classTeacherContainer{
+      display: none;
+   }
+
+   .classCard > .classOutlineContainer{
+      display: none;
+   }
+   .classCard > .classNameContainer > .className{
+      font-size: x-small;
+   }
+   
 }

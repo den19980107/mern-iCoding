@@ -3,8 +3,17 @@ import React from 'react';
 // import component
 import { Form } from 'react-bootstrap';
 import ClassTimeSelector from '../../../components/ClassTimeSelector/ClassTimeSelector';
+import 'braft-editor/dist/index.css'
+import BraftEditor from 'braft-editor';
+const languageFn = (languages, context) => {
+   if (context === 'braft-editor') {
+      console.log(languages)
+      languages['zh-hant'].controls.clear = '清空'
+      return languages['zh-hant']
+   }
 
-const Step2 = ({ handleChange, handleAddClassTime, value }) => {
+}
+const Step2 = ({ handleChange, handleAddClassTime, handelIntroduction, value }) => {
    function handleClassTimeChange(value) {
       handleAddClassTime(value)
    }
@@ -14,7 +23,14 @@ const Step2 = ({ handleChange, handleAddClassTime, value }) => {
             <Form>
                <Form.Group >
                   <Form.Label>介紹一下你的課程吧！</Form.Label>
-                  <Form.Control as="textarea" rows="12" onChange={handleChange("introduction")} value={value.introduction} />
+                  <BraftEditor
+                     style={{ background: "white" }}
+                     onChange={(data) => {
+                        handelIntroduction(data.toHTML())
+                     }}
+                     language={languageFn}
+                  />
+                  {/* <Form.Control as="textarea" rows="12" onChange={handleChange("introduction")} value={value.introduction} /> */}
                </Form.Group>
             </Form>
          </div>

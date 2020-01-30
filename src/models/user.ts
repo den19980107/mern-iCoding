@@ -11,6 +11,7 @@ export type UserDocument = mongoose.Document & {
   accountId: String
   updateDisplayName: Function
   avatarsUrl: String
+  profile: String
 };
 
 let userSchema = new mongoose.Schema({
@@ -36,6 +37,9 @@ let userSchema = new mongoose.Schema({
     type: String
   },
   avatarsUrl: {
+    type: String
+  },
+  profile: {
     type: String
   }
 }, { timestamps: true })
@@ -124,5 +128,50 @@ export class UserModel extends modelHelper {
     })
   }
 
+  /**
+   * 更新自我介紹
+   * @param userId 
+   * @param newProfile 
+   */
+  static async updateProfile(userId: string, newProfile: string) {
+    return new Promise(function (resolve, reject) {
+      const userObjectId: ObjectID = new ObjectID(userId);
+      const updateQuery = {
+        $set: {
+          profile: newProfile
+        }
+      }
+      User.updateOne({ _id: userObjectId }, updateQuery, function (err, status) {
+        if (err) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      })
+    })
+  }
+
+  /**
+   * 更新大頭貼
+   * @param userId 
+   * @param newAvatarsUrl 
+   */
+  static async updateAvatarsUrl(userId: string, newAvatarsUrl: string) {
+    return new Promise(function (resolve, reject) {
+      const userObjectId: ObjectID = new ObjectID(userId);
+      const updateQuery = {
+        $set: {
+          avatarsUrl: newAvatarsUrl
+        }
+      }
+      User.updateOne({ _id: userObjectId }, updateQuery, function (err, status) {
+        if (err) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      })
+    })
+  }
 }
 export const User = mongoose.model<UserDocument>("User", userSchema);

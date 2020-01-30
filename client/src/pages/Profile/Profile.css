@@ -1,0 +1,11 @@
+.titleContainer{
+   padding: 1rem;
+   margin-bottom: 1rem;
+   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+   background: white;
+}
+
+.titleContainer h3{
+   padding: 0;
+   margin: 0;
+}

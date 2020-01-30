@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 import { ObjectID } from 'mongodb';
 import { resolve, reject } from "bluebird";
 import { modelHelper } from "./modelHelper";
-export type VideoDocument = mongoose.Document & {
-   videoName: String
+export type ImageDocument = mongoose.Document & {
+   imageName: String
    uploader: String,
    fileName: String
 };
 
-let videoSchema = new mongoose.Schema({
-   videoName: {
+let imageSchema = new mongoose.Schema({
+   imageName: {
       type: String,
       require: true
    },
@@ -25,11 +25,11 @@ let videoSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-export class VideoModel extends modelHelper {
-   static async createVideo(video: VideoDocument): Promise<boolean> {
-      let newVideo = new Video(video)
+export class ImageModel extends modelHelper {
+   static async createImage(image: ImageDocument): Promise<boolean> {
+      let newImage = new Image(image)
       return new Promise(function (resolve, reject) {
-         newVideo.save(function (err) {
+         newImage.save(function (err) {
             if (err) {
                resolve(false)
             } else {
@@ -39,9 +39,9 @@ export class VideoModel extends modelHelper {
       })
    }
 
-   static async getVideoById(id: string): Promise<VideoDocument> {
-      let video: VideoDocument = await VideoModel.getById(id, Video)
-      return video
+   static async getImageById(id: string): Promise<ImageDocument> {
+      let image: ImageDocument = await ImageModel.getById(id, Image)
+      return image
    }
 }
-export const Video = mongoose.model<VideoDocument>("Video", videoSchema);
+export const Image = mongoose.model<ImageDocument>("Image", imageSchema);

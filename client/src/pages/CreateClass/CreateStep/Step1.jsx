@@ -3,10 +3,10 @@ import { Form } from 'react-bootstrap';
 import { Upload, message, Button, Icon } from 'antd';
 
 // import compornent
-import ClassItem from '../../Class/ClassItem';
+import ClassItem from '../../Classes/ClassItem';
 
 const Step1 = ({ value, teacherData, handleChange, handleImageUpload }) => {
-   let converImage = value.coverImage ? `/class/coverImage/${value.coverImage}` : "https://hahow.in/static/media/coursebrief-placeholder.3ba531a3.svg"
+   let coverImage = value.coverImage ? value.coverImage : "https://hahow.in/static/media/coursebrief-placeholder.3ba531a3.svg"
 
    return (
       <div className="container">
@@ -24,12 +24,12 @@ const Step1 = ({ value, teacherData, handleChange, handleImageUpload }) => {
                   <Form.Label>課程封面照片</Form.Label>
                   <Upload
                      name="coverImage"
-                     action="/class/uploadCoverImage"
+                     action="/image/upload"
                      onChange={(info) => {
                         if (info.file.status === 'done') {
                            message.success(`${info.file.name} file uploaded successfully`);
                            console.log(handleChange)
-                           handleImageUpload('coverImage', info.file.response.imageName)
+                           handleImageUpload('coverImage', info.file.response.imageUrl)
                         } else if (info.file.status === 'error') {
                            message.error(`${info.file.name} file upload failed.`);
                         }
@@ -52,7 +52,7 @@ const Step1 = ({ value, teacherData, handleChange, handleImageUpload }) => {
                <ClassItem
                   classDatas={{
                      classData: {
-                        coverImage: converImage,
+                        coverImage: coverImage,
                         name: value.name,
                         outline: value.outline
                      },
