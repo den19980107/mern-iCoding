@@ -13,6 +13,7 @@ import Class from './pages/Classes/Class';
 import CreateClass from './pages/CreateClass/CreateClass';
 import NotFound from './pages/NotFound/NotFound';
 import Profile from './pages/Profile/Profile';
+import config from './config/default'
 
 import _ from "lodash";
 
@@ -23,7 +24,7 @@ class AppRouter extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/auth/login/success", {
+    fetch(`${config.serverUrl}/auth/login/success`, {
       method: "GET",
       credentials: "include",
       headers: {

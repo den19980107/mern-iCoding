@@ -30,6 +30,7 @@ const imgStorage = new GridFsStorage({
    url: config.MONGODB.MONGODB_URI,
    file: (req, file) => {
       return new Promise((resolve, reject) => {
+         console.log(file)
          crypto.randomBytes(16, (err, buf) => {
             if (err) {
                return reject(err);

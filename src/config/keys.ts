@@ -14,7 +14,7 @@ const SESSION = {
 
 
 const MONGODB = {
-  MONGODB_URI: 'mongodb://localhost:27017/mern-iCoding'
+  MONGODB_URI: 'mongodb://localhost:27017/mern-iCoding' //'mongodb://icoding:icoding19980107@ds363038.mlab.com:63038/icoding'
 };
 
 export = {

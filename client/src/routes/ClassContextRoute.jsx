@@ -11,6 +11,7 @@ function ClassContextRoute(props) {
       <ClassDataProvider id={classId}>
          <Route exact path="/class/:id" component={ClassDashBoard} />
          <Route exact path="/class/:id/classManager" component={ClassManager}></Route>
+         <Route exact path="/class/:id/classManager/unit/:unitId/tab/:tabName" component={ClassManager}></Route>
       </ClassDataProvider>
    )
 }

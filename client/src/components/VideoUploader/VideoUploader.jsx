@@ -1,6 +1,6 @@
 import React from 'react';
 import { Upload, Button, Icon } from 'antd';
-const VideoUploader = ({ onChange }) => {
+const VideoUploader = ({ onChange, belongUnit, displayName, style }) => {
    const props = {
       action: '/video/upload',
       onChange({ file, fileList }) {
@@ -10,11 +10,19 @@ const VideoUploader = ({ onChange }) => {
             }
          }
       },
+      accept: 'video/*',
       defaultFileList: [],
+      data: {}
    };
+   if (belongUnit) {
+      props.data.belongUnitId = belongUnit
+   }
+   if (displayName) {
+      props.data.displayName = displayName
+   }
    return (
-      <Upload {...props}>
-         <button style={{ fontSize: "20px", padding: "0.5rem", backgroundColor: "white", border: "0.5px solid #ccc" }}>
+      <Upload {...props} >
+         <button style={{ fontSize: "20px", padding: "0.5rem", backgroundColor: "white", border: "0.5px solid #ccc", ...style }}>
             <Icon type="upload" /> 上傳影片
          </button>
       </Upload>

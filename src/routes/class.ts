@@ -5,6 +5,10 @@ import { getUploader, findFileByFileName } from '../common/upload';
 import { UserModel, User, UserDocument } from '../models/user';
 import { ReadStream } from 'fs';
 import { StudentTakeCourseModel, StudentTakeCourseStatus, StudentTakeCourse, StudentTakeCourseDocument } from '../models/studentTakeCourse';
+import { UnitDocument, UnitModel, Unit } from '../models/unit';
+import { Material, MaterialModel, MaterialDocument } from '../models/material';
+import { Test, TestModel, TestDocument } from '../models/test';
+import { VideoModel, VideoDocument } from '../models/video';
 const router = express.Router();
 const imageUpload = getUploader('image');
 
@@ -25,6 +29,8 @@ router.get('/', async function (req: Request, res: Response) {
       res.status(500).json({ errors: [{ msg: "取得課程錯誤！" }] })
    }
 })
+
+// ========================== 課程 ===================================
 
 /**
  * 新增課程
@@ -293,6 +299,337 @@ router.get('/:id/studentStatusList', async function (req: Request, res: Response
       res.status(200).json(stautsList)
    } else {
       res.status(500).json({ errors: [{ msg: "取得修課清單的學生狀態錯誤！" }] })
+   }
+})
+
+// ========================== 單元 ===================================
+
+/**
+ * 建立單元
+ */
+router.post('/createUnit', async function (req: Request, res: Response) {
+   // 檢查 body
+   req.checkBody('unitName', "單元名稱不得為空").notEmpty();
+   req.checkBody('classId', "課程id不得為空").notEmpty();
+
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const unitName: string = req.body.unitName
+   const classId: string = req.body.classId
+
+   // 檢查是不是該老師的課
+   const classData = await ClassModel.getClassById(classId);
+   if (req.user.id !== classData.teacherId) {
+      res.status(500).json({ errors: [{ msg: "您不是該課堂的老師" }] })
+      return
+   }
+
+   // 新增單元
+   let newUnit = new Unit({
+      name: unitName,
+      belongClassId: classId
+   })
+
+
+   let isSuccess = await UnitModel.createUnit(newUnit);
+   if (isSuccess) {
+      res.status(200).json({ message: "新增成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "新增失敗!" }] })
+   }
+
+})
+
+/**
+ * 取得課程中所有單元
+ */
+router.get('/:classId/units', async function (req: Request, res: Response) {
+   let classId: string = req.params.classId;
+   let units: Array<UnitDocument> = await UnitModel.getUnitInClass(classId)
+   res.status(200).json(units)
+})
+
+/**
+ * 更新單元名稱
+ */
+router.get('/updateUnitName/:unitId', async function (req: Request, res: Response) {
+   req.checkBody('unitName', "單元名稱不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+   const unitId = req.params.unitId;
+   const newUnitName = req.body.unitName
+   let isSuccess = await UnitModel.updateUnitName(unitId, newUnitName);
+   if (isSuccess) {
+      res.status(200).json({ message: "更改單元名稱成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更改單元名稱失敗！" }] })
+   }
+})
+
+/**
+ * 刪除單元
+ */
+router.post('/deleteUnit/:unitId', async function (req: Request, res: Response) {
+   const unitId = req.params.unitId;
+   let isSuccess = await UnitModel.deleteUnitById(unitId);
+   if (isSuccess) {
+      res.status(200).json("刪除成功！")
+   } else {
+      res.status(500).json({ errors: [{ msg: "刪除失敗" }] })
+   }
+})
+
+// ========================== 教材 ===================================
+
+/**
+ * 新增教材
+ */
+router.post('/createMaterial', async function (req: Request, res: Response) {
+   // 檢查body
+   req.checkBody('unitId', "單元id沒提供！").notEmpty();
+   req.checkBody('name', "教材名稱不得為空！").notEmpty();
+   req.checkBody('body', "教材內容不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors);
+      return;
+   }
+
+   // 建立教材
+   const name = req.body.name;
+   const unitId = req.body.unitId;
+   const body = req.body.body;
+   let newMaterial: MaterialDocument = new Material({
+      name: name,
+      belongUnitId: unitId,
+      body: body,
+      uploader: req.user._id
+   })
+   let isSuccess = await MaterialModel.createMaterial(newMaterial);
+   if (isSuccess) {
+      res.status(200).json({ message: "新增教材成功！" })
+   } else {
+      res.status(500).json({ errors: [{ meg: "新增教材失敗！" }] })
+   }
+})
+
+/**
+ * 更新教材名稱
+ */
+router.post('/updateMaterialName/:materialId', async function (req: Request, res: Response) {
+   req.checkBody('name', "教材名稱不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const materialId = req.params.materialId;
+   const newName = req.body.name;
+   let isSuccess = await MaterialModel.updateNameById(materialId, newName)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗！" }] })
+   }
+})
+
+/**
+ * 更新教材內容
+ */
+router.post('/updateMaterialBody/:materialId', async function (req: Request, res: Response) {
+   req.checkBody('body', "教材內容不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const materialId = req.params.materialId;
+   const newBody = req.body.body;
+   let isSuccess = await MaterialModel.updateBodyById(materialId, newBody)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗！" }] })
+   }
+})
+
+/**
+ * 取得單元內教材
+ */
+router.get('/materialInUnit/:unitId', async function (req: Request, res: Response) {
+   const unitId = req.params.unitId;
+   let materials: Array<MaterialDocument> = await MaterialModel.getMaterialInUnit(unitId)
+   res.status(200).json(materials)
+})
+
+/**
+ * 刪除教材
+ */
+router.post('/deleteMaterial/:materialId', async function (req: Request, res: Response) {
+   const materialId = req.params.materialId;
+   let isSuccess = MaterialModel.deleteMaterialById(materialId);
+   if (isSuccess) {
+      res.status(200).json({ message: "刪除教材成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "刪除教材失敗！" }] })
+   }
+})
+
+
+// ========================== 測驗 ===================================
+
+/**
+ * 新增測驗
+ */
+router.post('/createTest', async function (req: Request, res: Response) {
+   // 檢查body
+   req.checkBody('unitId', "單元id沒提供！").notEmpty();
+   req.checkBody('name', "測驗名稱不得為空！").notEmpty();
+   req.checkBody('body', "測驗內容不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors);
+      return;
+   }
+
+   // 建立測驗
+   const name = req.body.name;
+   const unitId = req.body.unitId;
+   const body = req.body.body;
+   let newTest: TestDocument = new Test({
+      name: name,
+      unitId: unitId,
+      body: body,
+      uploader: req.user._id
+   })
+   let isSuccess = await TestModel.createTest(newTest);
+   if (isSuccess) {
+      res.status(200).json({ message: "新增測驗成功！" })
+   } else {
+      res.status(500).json({ errors: [{ meg: "新增測驗失敗！" }] })
+   }
+})
+
+/**
+ * 更新測驗名稱
+ */
+router.post('/updateTestName/:testId', async function (req: Request, res: Response) {
+   req.checkBody('name', "測驗名稱不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const testId = req.params.testId;
+   const newName = req.body.name;
+   let isSuccess = await TestModel.updateNameById(testId, newName)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗！" }] })
+   }
+})
+
+/**
+ * 更新測驗內容
+ */
+router.post('/updateTestlBody/:testId', async function (req: Request, res: Response) {
+   req.checkBody('body', "測驗內容不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const testId = req.params.testId;
+   const newBody = req.body.body;
+   let isSuccess = await TestModel.updateBodyById(testId, newBody)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗！" }] })
+   }
+})
+
+/**
+ * 取得單元內測驗
+ */
+router.get('/testInUnit/:unitId', async function (req: Request, res: Response) {
+   const unitId = req.params.unitId;
+   let tests: Array<TestDocument> = await TestModel.getTestInUnit(unitId)
+   res.status(200).json(tests)
+})
+
+/**
+ * 刪除測驗
+ */
+router.post('/deleteTest/:testId', async function (req: Request, res: Response) {
+   const testId = req.params.testId;
+   let isSuccess = TestModel.deleteTestById(testId);
+   if (isSuccess) {
+      res.status(200).json({ message: "刪除測驗成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "刪除測驗失敗！" }] })
+   }
+})
+
+
+// ========================== 影片 ===================================
+
+/**
+ * 新增影片 放在 video route
+ */
+
+/**
+ * 更新影片名稱
+ */
+router.post('/updateVideoName/:videoId', async function (req: Request, res: Response) {
+   req.checkBody('name', "影片名稱不得為空！").notEmpty();
+   let errors = req.validationErrors();
+   if (errors) {
+      res.status(500).json(errors)
+      return
+   }
+
+   const videoId = req.params.videoId;
+   const newName = req.body.name;
+   let isSuccess = await VideoModel.updateVideoNameById(videoId, newName)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗！" }] })
+   }
+})
+
+/**
+ * 取得單元內影片
+ */
+router.get('/videoInUnit/:unitId', async function (req: Request, res: Response) {
+   const unitId = req.params.unitId;
+   let videos: Array<VideoDocument> = await VideoModel.getVideoInUnit(unitId)
+   res.status(200).json(videos)
+})
+
+/**
+ * 刪除影片
+ */
+router.post('/deleteVideo/:videoId', async function (req: Request, res: Response) {
+   const videoId = req.params.videoId;
+   let isSuccess = VideoModel.deleteVideoById(videoId);
+   if (isSuccess) {
+      res.status(200).json({ message: "刪除影片成功！" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "刪除影片失敗！" }] })
    }
 })
 export = router;

@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import expressValidator from 'express-validator';
 import passport from 'passport';
 import path from 'path';
+import config from './config/default';
 
 // import routes
 import authRoutes from './routes/auth-routes';
@@ -20,9 +21,17 @@ import imageRoute from './routes/image';
 const app = express();
 const port = process.env.PORT || 5000;
 
+let isMongodbConnected = false
+
 // connect to mongodb
-mongoose.connect(keys.MONGODB.MONGODB_URI, () => {
-  console.log("connected to mongo db");
+mongoose.connect(keys.MONGODB.MONGODB_URI, (err) => {
+  if (err) {
+    isMongodbConnected = false
+    console.log(err)
+  } else {
+    isMongodbConnected = true
+    console.log("connected to mongo db");
+  }
 });
 
 app.use(
@@ -64,10 +73,14 @@ app.use('/coding', codeRoute);
 app.use('/video', videoRoute);
 app.use('/image', imageRoute)
 
-if (process.env.NODE_ENV == 'production') {
+if (config.mode == 'production') {
   app.use(express.static('client/build'))
-  app.get('/', function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  app.get('/*', function (req, res) {
+    if (isMongodbConnected) {
+      res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    } else {
+      res.send("資料庫連線錯誤")
+    }
   })
 }
 

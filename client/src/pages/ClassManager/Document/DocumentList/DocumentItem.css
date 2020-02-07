@@ -1,0 +1,52 @@
+.documentCard{
+   margin-right: 1rem !important;
+   margin-bottom: 1rem !important;
+   width: 230px
+}
+
+.iconContainer{
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   font-size: 26px;
+   color: rgb(59,145,247);
+
+}
+.nameContainer{
+   color: rgb(59,145,247);
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   padding-left: 0.5rem;
+}
+.title{
+   width: 120px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+.more{
+   font-size: 16px;
+   font-weight: bolder;
+}
+.cardBody{
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 9;
+   -webkit-box-orient: vertical; 
+   height: 180px;
+}
+
+
+@media only screen and (max-width: 600px) {
+   .documentCard{
+      width: 100% !important;
+   }
+   .titleText{
+      width: 80% !important;
+   }
+   .cardBody{
+      -webkit-line-clamp: 3;
+      height: 60px;
+   }
+ }

@@ -1,11 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
+import config from '../config/default'
 // model
 import { User, UserDocument } from '../models/user';
 
 const router = express.Router();
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+const CLIENT_HOME_PAGE_URL = config.clientUrl;
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req: Request, res: Response) => {

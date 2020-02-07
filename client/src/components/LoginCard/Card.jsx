@@ -1,4 +1,6 @@
 import React from 'react';
+import config from '../../config/default'
+
 // login icon
 import facebookIcon from '../../assets/loginImage/facebook.png';
 import googleIcon from '../../assets/loginImage/google.png';
@@ -22,7 +24,7 @@ const getColor = (type) => {
 }
 
 const login = (type) => {
-   window.location = `http://localhost:5000/auth/${type}`
+   window.location = `${config.serverUrl}/auth/${type}`
 }
 
 const Card = ({ type }) => {

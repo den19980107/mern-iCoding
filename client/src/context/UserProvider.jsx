@@ -1,12 +1,13 @@
 import React, { createContext, useState, useEffect } from "react";
 import history from "../history";
+import config from '../config/default'
 const context = createContext(null);
 
 const UserProvider = ({ children }) => {
    const [user, setUser] = useState({});
 
    useEffect(() => {
-      fetch("http://localhost:5000/auth/login/success", {
+      fetch(`${config.serverUrl}/auth/login/success`, {
          method: "GET",
          credentials: "include",
          headers: {

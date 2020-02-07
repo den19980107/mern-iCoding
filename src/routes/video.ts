@@ -27,6 +27,10 @@ db.once('open', function () {
 
 router.get('/:videoId', function (req: Request, res: Response) {
    Video.findById(req.params.videoId, function (err, video: VideoDocument) {
+      if (err || !video) {
+         res.status(500).json({ errors: [{ msg: "沒有此影片" }] })
+         return
+      }
       const fileName = video.fileName;
       gfs.files.findOne({ //找出影片資訊‘
          filename: fileName
@@ -57,12 +61,26 @@ router.post('/upload', videoUpload.any(), function (req: Request, res: Response)
             const originalName = file.originalname
             const uploader = req.user._id
             const fileName = file.filename
+            let belongUnitId: string;
+            if (req.body.belongUnitId) {
+               belongUnitId = req.body.belongUnitId
+            }
+            let displayName: string;
+            if (req.body.displayName) {
+               displayName = req.body.displayName
+            }
 
             let newVideo = new Video();
             newVideo._id = new ObjectID();
-            newVideo.videoName = originalName;
+            newVideo.name = originalName;
             newVideo.fileName = fileName
             newVideo.uploader = uploader;
+            if (belongUnitId) {
+               newVideo.belongUnitId = belongUnitId
+            }
+            if (displayName) {
+               newVideo.displayName = displayName
+            }
 
             let isSuccess = await VideoModel.createVideo(newVideo);
             if (isSuccess) {

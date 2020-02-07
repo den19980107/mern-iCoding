@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "NODE_ENV=production node dist/index.js",
+    "server": "npm run build && node dist/index.js",
+    "client": "npm start --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "production": "npm run build --prefix client && npm run build && NODE_ENV=production node dist/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",

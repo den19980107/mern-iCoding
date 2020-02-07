@@ -3,6 +3,7 @@ import _ from "lodash";
 import history from '../../history'
 import { Link } from 'react-router-dom'
 import UserProvider from '../../context/UserProvider';
+import config from '../../config/default'
 import './MenuBar.css'
 //component
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
@@ -40,7 +41,7 @@ const MenuBar = () => {
                         <NavDropdown.Item><Link style={{ color: "black" }} to="/account">帳號設定</Link></NavDropdown.Item>
                         <NavDropdown.Item><Link style={{ color: "black" }} to="/myclass">開課清單</Link></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="http://localhost:5000/auth/logout" style={{ color: "black" }}>登出</NavDropdown.Item>
+                        <NavDropdown.Item href={`${config.serverUrl}/auth/logout`} style={{ color: "black" }}>登出</NavDropdown.Item>
                      </NavDropdown>
                   </div>
 
