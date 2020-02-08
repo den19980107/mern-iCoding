@@ -12,6 +12,7 @@ import UserInfoCard from '../../components/UserInfoCard/UserInfoCard'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ClassStatusButton from './ClassStatusButton';
+import Loader from '../../components/Loader/Loader';
 
 
 const ClassDashBoard = () => {
@@ -23,6 +24,7 @@ const ClassDashBoard = () => {
 
    const [isInClass, setIsInClass] = useState(false)
 
+   if (!classData || !teacherData || !classStudents || !user) return (<Loader></Loader>)
    return (
       <div >
          <header>

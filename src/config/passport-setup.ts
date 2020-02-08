@@ -27,7 +27,7 @@ module.exports = function (passport) {
   passport.use(new FacebookStrategy({
     clientID: keys.FACEBOOK.clientID,
     clientSecret: keys.FACEBOOK.clientSecret,
-    callbackURL: "/auth/facebook/callback",
+    callbackURL: "/api/auth/facebook/callback",
     profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
   }, async (accessToken, refreshToken, profile, done) => {
     let userData = { ...profile }
@@ -57,7 +57,7 @@ module.exports = function (passport) {
   passport.use(new GoogleStrategy({
     clientID: keys.GOOGLE.clientID,
     clientSecret: keys.GOOGLE.clientSecret,
-    callbackURL: "/auth/google/callback",
+    callbackURL: "/api/auth/google/callback",
     scope: [
       'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email'

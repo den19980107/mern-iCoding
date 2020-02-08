@@ -8,13 +8,13 @@ const RenameModel = ({ document, type, updateDocumentList }) => {
    let apiUrl;
    switch (type) {
       case "material":
-         apiUrl = `/class/updateMaterialName/${document._id}`
+         apiUrl = `/api/class/updateMaterialName/${document._id}`
          break;
       case "video":
-         apiUrl = `/class/updateVideoName/${document._id}`
+         apiUrl = `/api/class/updateVideoName/${document._id}`
          break;
       case "test":
-         apiUrl = `/class/updateTestName/${document._id}`
+         apiUrl = `/api/class/updateTestName/${document._id}`
          break;
       default:
          break;

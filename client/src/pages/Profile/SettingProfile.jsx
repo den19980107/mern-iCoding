@@ -8,27 +8,33 @@ import axios from 'axios';
 import history from '../../history';
 
 
-const SettingProfile = ({ user }) => {
+const SettingProfile = ({ user, updateUserInfo }) => {
    const [displayName, setDisplayName] = useState(user.displayName);
+   const [isDisplayNameChange, setIsDisplayNameChange] = useState(false)
    const [avatarsUrl, setAvatarsUrl] = useState(user.avatarsUrl);
+   const [isAvatartChange, setIsAvatarChange] = useState(false)
    const [profile, settingProfile] = useState(user.profile);
+   const [isProfileChange, setIsProfileChange] = useState(false)
 
    const handleUploadNewAvatarImage = (imageUrl) => {
       setAvatarsUrl(imageUrl)
+      setIsAvatarChange(true)
    }
 
    const handleChangeDisplayName = (e) => {
       setDisplayName(e.target.value)
+      setIsDisplayNameChange(true)
    }
 
    const handleChangeProfile = (e) => {
       settingProfile(e.target.value)
+      setIsProfileChange(true)
    }
 
    const handleSvaeData = async () => {
-      if (displayName) {
+      if (isDisplayNameChange) {
          try {
-            let res = await axios.post('/user/updateDisplayName/' + user._id, { displayName: displayName });
+            let res = await axios.post('/api/user/updateDisplayName/' + user._id, { displayName: displayName });
             if (res.request.status == 200) {
                message.success("顯示名稱 " + res.data.message)
             }
@@ -39,9 +45,9 @@ const SettingProfile = ({ user }) => {
          }
       }
 
-      if (avatarsUrl) {
+      if (isAvatartChange) {
          try {
-            let res = await axios.post('/user/updateAvatar/' + user._id, { avatarsUrl: avatarsUrl });
+            let res = await axios.post('/api/user/updateAvatar/' + user._id, { avatarsUrl: avatarsUrl });
             if (res.request.status == 200) {
                message.success("大頭貼 " + res.data.message)
             }
@@ -52,9 +58,9 @@ const SettingProfile = ({ user }) => {
          }
       }
 
-      if (profile) {
+      if (isProfileChange) {
          try {
-            let res = await axios.post('/user/updateProfile/' + user._id, { profile: profile });
+            let res = await axios.post('/api/user/updateProfile/' + user._id, { profile: profile });
             if (res.request.status == 200) {
                message.success("自我介紹 " + res.data.message)
             }
@@ -64,7 +70,12 @@ const SettingProfile = ({ user }) => {
             })
          }
       }
-      window.location = "/profile"
+      updateUserInfo(user._id);
+
+      // 重置
+      setIsDisplayNameChange(false)
+      setIsAvatarChange(false)
+      setIsProfileChange(false)
    }
    return (
       <div style={{ marginBottom: "1rem" }}>

@@ -4,8 +4,9 @@ if (mode == 'development') {
    serverUrl = "http://localhost:5000"
    clientUrl = "http://localhost:3000"
 } else if (mode == "production") {
+   // production 時這兩個要依樣 記得！
    serverUrl = "https://icoding.appspot.com"
-   clientUrl = "http://localhost:5000"
+   clientUrl = "https://icoding.appspot.com"
 }
 
 type config = {

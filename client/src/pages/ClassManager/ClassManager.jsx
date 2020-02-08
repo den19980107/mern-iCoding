@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios'
+import './ClassManager.css'
 // import component
 import CreateUnitButton from './CreateUnitButton/CreateUnitButton'
 import { Layout, Menu, Icon, Button, message, Modal } from 'antd';
@@ -21,7 +22,7 @@ const ClassManager = () => {
 
    const getUnits = async () => {
       try {
-         const { data } = await axios.get(`/class/${classData.classInfo._id}/units`)
+         const { data } = await axios.get(`/api/class/${classData.classInfo._id}/units`)
          setUnits(data)
          if (data && data[0] && data[0]._id) {
             setCurrentUnit(data[0]._id)
@@ -47,7 +48,7 @@ const ClassManager = () => {
                let isLast = units.length == 1
                let newSelectUnitIndex = getUnitIndex(unitId) == 0 ? 0 : getUnitIndex(unitId) - 1
                console.log(newSelectUnitIndex, units[newSelectUnitIndex])
-               const { data } = await axios.post(`/class/deleteUnit/${unitId}`)
+               const { data } = await axios.post(`/api/class/deleteUnit/${unitId}`)
                if (data) {
                   // 更新 unit 資料
                   getUnits()
@@ -125,7 +126,7 @@ const ClassManager = () => {
          <Layout>
             {/* <Header style={{ background: '#fff', padding: 0 }} /> */}
             <Content style={{ margin: '24px 16px 0' }}>
-               <div style={{ padding: 24, background: '#fff', minHeight: "90vh" }}>
+               <div className="contentContainer" style={{ padding: 24, background: '#fff', minHeight: "90vh" }}>
                   {
                      // 檢查是否有目前選到的 unit 了
                      currentUnit && <Document unit={getUnitById(currentUnit)}></Document>

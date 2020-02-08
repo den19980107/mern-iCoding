@@ -1,4 +1,5 @@
 import React from 'react';
+import history from '../../history'
 import { Icon, message, Button, Avatar } from 'antd';
 const UserInfoCard = ({ userInfo, titleText, style }) => {
    if (titleText == null || titleText == undefined) titleText = "關於老師 "
@@ -14,7 +15,7 @@ const UserInfoCard = ({ userInfo, titleText, style }) => {
          </div>
          <div style={{ display: "flex", justifyContent: "center", padding: "1rem" }}>
             <Icon type="mail" style={{ fontSize: "30px", color: "#333", margin: "1rem" }} />
-            <Icon type="home" style={{ fontSize: "30px", color: "#333", margin: "1rem" }} />
+            <Icon type="home" style={{ fontSize: "30px", color: "#333", margin: "1rem" }} onClick={() => history.push(`/profile?id=${userInfo._id}`)} />
          </div>
          <div style={{ padding: "0 1rem 1rem 1rem", fontSize: "20px" }}>
             {userInfo.profile}

@@ -3,6 +3,7 @@ import './CreateStep.css'
 import { Steps, Button, message } from 'antd';
 import UserProvider from '../../../context/UserProvider'
 import axios from 'axios';
+import history from '../../../history';
 // import component
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -110,11 +111,11 @@ const CreateStep = () => {
          introVideoUrl
       }
 
-      axios.post('/class/create', classData)
+      axios.post('/api/class/create', classData)
          .then(res => {
             if (res.status === 200) {
                console.log(res.data)
-               window.location = "/class"
+               history.push('/class')
                message.success(`新增成功！`);
             } else {
                message.error(`新增失敗！`);

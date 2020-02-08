@@ -14,7 +14,7 @@ const MyClass = ({ user }) => {
    }, [user])
 
    const getMyClassData = async () => {
-      let myClassRes = await axios.get('/user/myClass/' + user._id);
+      let myClassRes = await axios.get('/api/user/myClass/' + user._id);
 
       if (myClassRes.request.status == 200) {
          setMyClass(myClassRes.data)

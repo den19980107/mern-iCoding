@@ -11,7 +11,7 @@ class ClassList extends Component {
    }
 
    async fetchData() {
-      const result = await axios.get('/class');
+      const result = await axios.get('/api/class');
       if (result.status == 200) {
          this.setState({ classDatas: result.data })
       } else {

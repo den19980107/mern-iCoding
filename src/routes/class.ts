@@ -75,7 +75,8 @@ router.get('/:id', async function (req: Request, res: Response) {
                displayName: teacehrData.displayName,
                email: teacehrData.email,
                avatarsUrl: teacehrData.avatarsUrl,
-               profile: teacehrData.profile
+               profile: teacehrData.profile,
+               _id: teacehrData._id
             }
             let classStudents: Array<UserDocument> = await StudentTakeCourseModel.getClassStudents(id)
             if (classStudents) {
@@ -418,6 +419,15 @@ router.post('/createMaterial', async function (req: Request, res: Response) {
    } else {
       res.status(500).json({ errors: [{ meg: "新增教材失敗！" }] })
    }
+})
+
+/**
+ * 取得教材內容 by id
+ */
+router.get('/material/:id', async function (req: Request, res: Response) {
+   const materialId = req.params.id;
+   let material: MaterialDocument = await MaterialModel.getMaterialById(materialId);
+   res.status(200).json(material)
 })
 
 /**

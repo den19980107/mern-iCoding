@@ -11,7 +11,7 @@ const MyStudyClass = ({ user }) => {
       }
    }, [user])
    const getMyStudyClassData = async () => {
-      let myStudyClassRes = await axios.get('/user/myStudyClass/' + user._id);
+      let myStudyClassRes = await axios.get('/api/user/myStudyClass/' + user._id);
 
       if (myStudyClassRes.request.status == 200) {
          setMyStudyClass(myStudyClassRes.data)

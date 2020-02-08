@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload, Button, Icon } from 'antd';
 const VideoUploader = ({ onChange, belongUnit, displayName, style }) => {
    const props = {
-      action: '/video/upload',
+      action: '/api/video/upload',
       onChange({ file, fileList }) {
          if (file.status !== 'uploading') {
             if (file.xhr.status == 200) {

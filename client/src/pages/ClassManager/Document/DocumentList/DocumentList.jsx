@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 // import component
 import DocumentItem from './DocumentItem'
+import Loader from '../../../../components/Loader/Loader'
 import { message, Icon } from 'antd'
 const DocumentList = ({ type, unitId, isNeedUpdate, upDateComplelte }) => {
    const [documents, setDocuments] = useState([])
@@ -13,7 +14,7 @@ const DocumentList = ({ type, unitId, isNeedUpdate, upDateComplelte }) => {
    }, [isNeedUpdate, type, unitId])
 
    const getData = async () => {
-      let url = `/class/${type}InUnit/${unitId}`
+      let url = `/api/class/${type}InUnit/${unitId}`
       console.log(url)
       try {
          setDocuments([])
@@ -31,12 +32,10 @@ const DocumentList = ({ type, unitId, isNeedUpdate, upDateComplelte }) => {
    }
    return (
       <div style={{ marginTop: "1rem" }}>
-         <div style={{ display: "flex", justifyContent: "center" }}>
-            {isLoding && <Icon type="loading" style={{ fontSize: "64px" }} />}
-         </div>
+         {isLoding && <Loader></Loader>}
          <div style={{ display: "flex", flexWrap: "wrap" }}>
             {documents.length >= 0 && documents.map(document => (
-               <DocumentItem type={type} document={document} updateDocumentList={getData}></DocumentItem>
+               <DocumentItem type={type} document={document} updateDocumentList={getData} unitId={unitId}></DocumentItem>
             ))}
          </div>
       </div>

@@ -16,7 +16,7 @@ const CreateMaterialModal = ({ unitId, onNeedUpdate }) => {
 
    const handleOk = async () => {
       try {
-         const { data } = await axios.post('/class/createMaterial', {
+         const { data } = await axios.post('/api/class/createMaterial', {
             name: title,
             unitId: unitId,
             body: body

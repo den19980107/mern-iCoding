@@ -41,7 +41,7 @@ const MenuBar = () => {
                         <NavDropdown.Item><Link style={{ color: "black" }} to="/account">帳號設定</Link></NavDropdown.Item>
                         <NavDropdown.Item><Link style={{ color: "black" }} to="/myclass">開課清單</Link></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href={`${config.serverUrl}/auth/logout`} style={{ color: "black" }}>登出</NavDropdown.Item>
+                        <NavDropdown.Item href={`${config.serverUrl}/api/auth/logout`} style={{ color: "black" }}>登出</NavDropdown.Item>
                      </NavDropdown>
                   </div>
 

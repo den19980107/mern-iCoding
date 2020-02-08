@@ -71,7 +71,7 @@ router.post('/upload', imageUploader.any(), function (req: Request, res: Respons
 
             let isSuccess = await ImageModel.createImage(newImage);
             if (isSuccess) {
-               res.status(200).json({ message: "新增成功", imageUrl: req.headers.origin + '/image/' + newImage._id })
+               res.status(200).json({ message: "新增成功", imageUrl: req.headers.origin + '/api/image/' + newImage._id })
             } else {
                res.status(500).json({ errors: [{ msg: "新增失敗" }] })
             }

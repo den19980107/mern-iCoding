@@ -15,7 +15,7 @@ const CreateUnitButton = ({ style, updateData }) => {
       if (classData && classData.classInfo && classData.classInfo._id) {
          console.log("send request")
          try {
-            const { data } = await axios.post('/class/createUnit', {
+            const { data } = await axios.post('/api/class/createUnit', {
                unitName: newUnitName,
                classId: classData.classInfo._id
             })

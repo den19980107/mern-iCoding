@@ -13,7 +13,7 @@ const ClassDataProvider = ({ id, children }) => {
    }, []);
 
    async function getData() {
-      let classDataRes = await axios.get("/class/" + id);
+      let classDataRes = await axios.get("/api/class/" + id);
       if (classDataRes.request.status == 200) {
          console.log(classDataRes.data)
          setData(classDataRes.data)

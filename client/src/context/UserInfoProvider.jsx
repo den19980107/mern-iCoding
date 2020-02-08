@@ -12,7 +12,7 @@ const UserInfoProvider = ({ children, id }) => {
 
    async function getData() {
       if (id) {
-         let userInfoRes = await axios.get("/user/info/" + id)
+         let userInfoRes = await axios.get("/api/user/info/" + id)
          if (userInfoRes.request.status == 200) {
             setUserInfo(userInfoRes.data)
          } else {

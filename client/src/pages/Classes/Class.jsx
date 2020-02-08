@@ -4,7 +4,12 @@ import './Class.css'
 const Class = () => {
    return (
       <div className="container class-container">
-         <ClassList></ClassList>
+         <div className="banner">
+            <h3 style={{ margin: 0 }}>所有課程</h3>
+         </div>
+         <div style={{ marginTop: "1rem" }}>
+            <ClassList></ClassList>
+         </div>
       </div>
    );
 };

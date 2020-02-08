@@ -16,7 +16,7 @@ const ClassStatusButton = ({ user, classData, setIsInClass }) => {
    const [status, setStatus] = useState(notTake);
 
    useEffect(() => {
-      axios.get('/class/' + classData._id + '/studentStatusList')
+      axios.get('/api/class/' + classData._id + '/studentStatusList')
          .then(res => {
             let statuses = res.data;
             for (let i = 0; i < statuses.length; i++) {
@@ -37,7 +37,7 @@ const ClassStatusButton = ({ user, classData, setIsInClass }) => {
 
    const handleTakeCourse = async () => {
       try {
-         let res = await axios.post("/class/takeCourse", {
+         let res = await axios.post("/api/class/takeCourse", {
             studentId: user._id,
             classId: classData._id
          })
@@ -54,7 +54,7 @@ const ClassStatusButton = ({ user, classData, setIsInClass }) => {
 
    const handleQuitCourse = async () => {
       try {
-         let res = await axios.post("/class/quitClass", {
+         let res = await axios.post("/api/class/quitClass", {
             studentId: user._id,
             classId: classData._id
          })

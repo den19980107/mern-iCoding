@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './DocumentItem.css'
 import htmlToText from 'html-to-text'
+import history from '../../../../history'
+import ClassDataProvider from '../../../../context/ClassDataProvider'
 // import component
 import { Card, Icon, Button, Menu, Dropdown, Modal } from 'antd'
 import RenameModal from './RenameModel/RenameModel'
 import DeleteModal from './DeleteModel/DeleteModel'
-const DocumentItem = ({ type, document, updateDocumentList }) => {
+const DocumentItem = ({ type, document, updateDocumentList, unitId }) => {
+   const data = useContext(ClassDataProvider.context);
+   const classData = data.classInfo
+
    const menu = (
       <Menu>
          <Menu.Item>
@@ -20,15 +25,15 @@ const DocumentItem = ({ type, document, updateDocumentList }) => {
 
    if (type == "material") {
       return (
-         <MaterialCard document={document} menu={menu}></MaterialCard>
+         <MaterialCard document={document} menu={menu} classData={classData} unitId={unitId}></MaterialCard>
       );
    } else if (type == "video") {
       return (
-         <VideoCard document={document} menu={menu}></VideoCard>
+         <VideoCard document={document} menu={menu} classData={classData} unitId={unitId}></VideoCard>
       )
    } else if (type == "test") {
       return (
-         <TestCard document={document} menu={menu}></TestCard>
+         <TestCard document={document} menu={menu} classData={classData} unitId={unitId}></TestCard>
       )
    } else {
       return (
@@ -37,9 +42,10 @@ const DocumentItem = ({ type, document, updateDocumentList }) => {
    }
 };
 
-const MaterialCard = ({ document, menu }) => {
+const MaterialCard = ({ document, menu, classData, unitId }) => {
    return (
       <Card className="documentCard"
+         onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/material/${document._id}`)}
          title={
             <div style={{ display: "flex" }}>
                <div className="iconContainer">
@@ -62,9 +68,12 @@ const MaterialCard = ({ document, menu }) => {
 }
 
 
-const VideoCard = ({ document, menu }) => {
+const VideoCard = ({ document, menu, classData, unitId }) => {
    return (
-      <div style={{ border: "0.5px solid #ccc", display: "flex", flexDirection: "column", marginRight: "1rem", marginBottom: "1rem" }}>
+      <div
+         onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/video/${document._id}`)}
+         style={{ border: "0.5px solid #ccc", display: "flex", flexDirection: "column", marginRight: "1rem", marginBottom: "1rem" }}
+      >
          <video src={`/video/${document._id}`} width="310" height="174" style={{ background: "black" }}></video>
          <div style={{ padding: "0.5rem", display: "flex", justifyContent: "space-between" }}>
             <span>{document.displayName || document.name}</span>
@@ -76,9 +85,11 @@ const VideoCard = ({ document, menu }) => {
    )
 }
 
-const TestCard = ({ document, menu }) => {
+const TestCard = ({ document, menu, classData, unitId }) => {
    return (
-      <div>
+      <div
+         onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/test/${document._id}`)}
+      >
          <div>test card</div>
          <Dropdown overlay={menu} placement="bottomLeft">
             <Icon type="more" className="more" />

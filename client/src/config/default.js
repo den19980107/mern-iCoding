@@ -9,6 +9,7 @@ const config = {
    mode: mode,
    serverUrl: serverUrl,
 }
+console.log(config)
 
 
 export default config

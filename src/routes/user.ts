@@ -160,12 +160,14 @@ async function _getUserInfoById(req: Request, res: Response) {
    const id = req.params.id;
    let user = await UserModel.getUserById(id);
    if (user) {
-      const { displayName, avatarsUrl, email, profile } = user
+      const { displayName, avatarsUrl, email, profile, username, _id } = user
       let userInfo = {
          displayName,
          avatarsUrl,
          email,
-         profile
+         profile,
+         username,
+         _id
       }
       res.status(200).json({ userInfo: userInfo })
    } else {

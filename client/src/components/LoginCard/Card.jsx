@@ -24,7 +24,7 @@ const getColor = (type) => {
 }
 
 const login = (type) => {
-   window.location = `${config.serverUrl}/auth/${type}`
+   window.location = `${config.serverUrl}/api/auth/${type}`
 }
 
 const Card = ({ type }) => {

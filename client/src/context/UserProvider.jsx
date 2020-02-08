@@ -4,10 +4,9 @@ import config from '../config/default'
 const context = createContext(null);
 
 const UserProvider = ({ children }) => {
-   const [user, setUser] = useState({});
-
+   const [user, setUser] = useState(null);
    useEffect(() => {
-      fetch(`${config.serverUrl}/auth/login/success`, {
+      fetch(`${config.serverUrl}/api/auth/login/success`, {
          method: "GET",
          credentials: "include",
          headers: {
@@ -19,8 +18,6 @@ const UserProvider = ({ children }) => {
          .then(response => {
             if (response.status === 200) {
                return response.json();
-            } else {
-               history.push("/login")
             }
          })
          .then(responseJson => {
@@ -28,6 +25,7 @@ const UserProvider = ({ children }) => {
          })
          .catch(error => {
             setUser(null)
+            history.push('/login')
          });
 
    }, []);

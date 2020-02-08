@@ -12,7 +12,7 @@ const DeleteModel = ({ document, type, updateDocumentList }) => {
          apiUrl = `/class/deleteVideo/${document._id}`
          break;
       case "test":
-         apiUrl = `/class/deleteTest/${document._id}`
+         apiUrl = `/api/class/deleteTest/${document._id}`
          break;
       default:
          break;

@@ -66,12 +66,12 @@ app.use(
 );
 
 // set up routes
-app.use("/auth", authRoutes);
-app.use('/user', userRoutes);
-app.use('/class', classRoutes);
-app.use('/coding', codeRoute);
-app.use('/video', videoRoute);
-app.use('/image', imageRoute)
+app.use("/api/auth", authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/class', classRoutes);
+app.use('/api/coding', codeRoute);
+app.use('/api/video', videoRoute);
+app.use('/api/image', imageRoute)
 
 if (config.mode == 'production') {
   app.use(express.static('client/build'))

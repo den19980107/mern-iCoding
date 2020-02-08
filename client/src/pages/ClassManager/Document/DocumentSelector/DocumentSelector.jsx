@@ -14,7 +14,7 @@ const DocumentSelector = ({ onChange }) => {
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
          <Menu.Item key="material">
             <Icon type="file-text" />
-            教材
+            講義
         </Menu.Item>
          <Menu.Item key="video">
             <Icon type="youtube" />

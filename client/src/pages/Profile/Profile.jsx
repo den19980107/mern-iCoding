@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import queryString from 'query-string'
 import UserProvider from '../../context/UserProvider';
 import UserInfoCard from '../../components/UserInfoCard/UserInfoCard';
-import { Icon } from 'antd'
+import { Icon, message } from 'antd'
 import axios from 'axios';
 import './Profile.css'
 
 // import component
+import Loader from '../../components/Loader/Loader'
 import SettingProfile from './SettingProfile';
 import MyClass from './MyClass';
 import MyStudyClass from './MyStudyClass';
@@ -17,32 +18,34 @@ const Profile = (props) => {
    const userId = query.id
    const isCurrentUser = !userId
    const currentUser = useContext(UserProvider.context)
-   const [displayUser, setDisplayUser] = useState({})
-
+   const [displayUser, setDisplayUser] = useState(null)
    useEffect(() => {
-      if (userId) {
-         getUserInfo(userId)
+      if (currentUser) {
+         if (isCurrentUser) {
+            getUserInfo(currentUser._id)
+         } else {
+            getUserInfo(userId)
+         }
       }
-   }, [])
+   }, [currentUser, userId])
 
    async function getUserInfo(id) {
-      let userInfoRes = await axios.get('/user/info/' + id)
-      if (userInfoRes.request.status == 200) {
-         console.log(userInfoRes.data)
-         setDisplayUser(userInfoRes.data.userInfo)
-      } else {
+      try {
+         const { data } = await axios.get('/api/user/info/' + id)
+         setDisplayUser(data.userInfo)
+      } catch (error) {
          setDisplayUser({})
+         message.error("取得使用者資料失敗")
       }
    }
 
-   // 檢查是否有帶使用者id 如果沒有表示是看自己的 profile
-   const userInfo = userId ? displayUser : currentUser
+   if (!displayUser) return (<Loader></Loader>)
    return (
       <div className="container" style={{ marginTop: "3rem" }}>
          <div className="row">
             <div className="col-lg-4">
                <UserInfoCard
-                  userInfo={userInfo}
+                  userInfo={displayUser}
                   titleText=""
                ></UserInfoCard>
             </div>
@@ -54,19 +57,20 @@ const Profile = (props) => {
                         <h3><Icon type="edit" /></h3>
                      </div>
                      <SettingProfile
-                        user={userInfo}
+                        user={displayUser}
+                        updateUserInfo={getUserInfo}
                      ></SettingProfile>
                   </div>
                }
                <div className="titleContainer" >
                   <h3>修課清單</h3>
                </div>
-               <MyStudyClass user={userInfo}></MyStudyClass>
+               <MyStudyClass user={displayUser}></MyStudyClass>
 
                <div className="titleContainer" >
                   <h3>開課清單</h3>
                </div>
-               <MyClass user={userInfo}></MyClass>
+               <MyClass user={displayUser}></MyClass>
 
             </div>
          </div>

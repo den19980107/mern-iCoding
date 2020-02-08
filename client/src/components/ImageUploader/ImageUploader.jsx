@@ -3,7 +3,7 @@ import { Upload, Button, Icon, message } from 'antd';
 import './ImageUploader.css'
 const ImageUploader = ({ onChange, style }) => {
    const props = {
-      action: '/image/upload',
+      action: '/api/image/upload',
       onChange({ file, fileList }) {
          if (file.status !== 'uploading') {
             if (file.xhr && file.xhr.status == 200) {

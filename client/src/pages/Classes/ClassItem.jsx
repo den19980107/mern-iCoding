@@ -16,7 +16,7 @@ const ClassItem = ({ classDatas }) => {
       <div className="col-sm-12 col-lg-4 col-md-6" onClick={showClass}>
          <Avatar size={64} src={teacher.avatarsUrl} className="class-avatar" style={{
             position: "absolute",
-            top: "-30px",
+            top: "-15px",
             left: "25px",
             border: "2px solid white"
          }} />
