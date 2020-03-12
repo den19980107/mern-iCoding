@@ -214,6 +214,19 @@ export class ClassModel extends modelHelper {
          return []
       }
    }
+
+   /**
+    * 更新封面影片
+    * @param classId 
+    * @param newVideoUrl 
+    */
+   static async updateIntroVideoUrl(classId: string, newVideoUrl: string): Promise<boolean> {
+      const updateData = {
+         introVideoUrl: newVideoUrl
+      }
+      let res = await this.update(classId, updateData, Class);
+      return res;
+   }
 }
 
 export const Class = mongoose.model<ClassDocument>("Class", classSchema);

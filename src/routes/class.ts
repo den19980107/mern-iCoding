@@ -187,7 +187,7 @@ router.post('/launchClass/:id', async function (req: Request, res: Response) {
 /**
  * 下架課程
  */
-router.post('/launchClass/:id', async function (req: Request, res: Response) {
+router.post('/takeOffClass/:id', async function (req: Request, res: Response) {
    const id = req.params.id;
    let isSuccess = await ClassModel.closeClass(id);
    if (isSuccess) {
@@ -206,6 +206,17 @@ router.post('/uploadCoverImage', imageUpload.any(), async function (req: Request
       res.status(200).json({ message: "上傳成功", imageName: newImage })
    } else {
       res.status(500).json({ errors: [{ msg: "上傳失敗！" }] })
+   }
+})
+
+router.post('/updateIntroVideo', async function (req: Request, res: Response) {
+   const newVideoUrl = req.body.newIntroVideoUrl;
+   const classId = req.body.classId;
+   let isSuccess = await ClassModel.updateIntroVideoUrl(classId, newVideoUrl)
+   if (isSuccess) {
+      res.status(200).json({ message: "更新成功!" })
+   } else {
+      res.status(500).json({ errors: [{ msg: "更新失敗!" }] })
    }
 })
 
@@ -357,7 +368,7 @@ router.get('/:classId/units', async function (req: Request, res: Response) {
 /**
  * 更新單元名稱
  */
-router.get('/updateUnitName/:unitId', async function (req: Request, res: Response) {
+router.post('/updateUnitName/:unitId', async function (req: Request, res: Response) {
    req.checkBody('unitName', "單元名稱不得為空！").notEmpty();
    let errors = req.validationErrors();
    if (errors) {
