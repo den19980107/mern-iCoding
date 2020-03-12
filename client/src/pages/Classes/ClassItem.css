@@ -21,6 +21,7 @@
 .classCard > .coverImageContainer > .converImage{
    width: auto;
    height: 100%;
+   min-width: 100%;
 }
 
 .classCard > .classNameContainer{
@@ -78,6 +79,7 @@
 
    .class-avatar{
       display: none;
+      background: white;
    }
 
    .classCard > .classNameContainer{
