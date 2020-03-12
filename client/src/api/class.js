@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { _get, _post } from './common';
 const getAllClass = async () => {
    const url = "/api/class"
    let res = await _get(url, "api getAllClass error")
@@ -259,25 +260,7 @@ const getVideosInUnit = async (unitId) => {
    let res = await _get(url, "api getVideosInUnit error")
    return res
 }
-const _get = async (url, message) => {
-   try {
-      const { data } = await axios.get(url)
-      return data
-   } catch (error) {
-      console.log(message, error)
-      return false
-   }
-}
 
-const _post = async (url, data, message) => {
-   try {
-      const { data } = await axios.get(url, data)
-      return data
-   } catch (error) {
-      console.log(message, error)
-      return false
-   }
-}
 export default {
    getAllClass,
    createClass,

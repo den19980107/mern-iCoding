@@ -69,12 +69,13 @@ const MaterialCard = ({ document, menu, classData, unitId }) => {
 
 
 const VideoCard = ({ document, menu, classData, unitId }) => {
+   console.log(document)
    return (
       <div
          onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/video/${document._id}`)}
          style={{ border: "0.5px solid #ccc", display: "flex", flexDirection: "column", marginRight: "1rem", marginBottom: "1rem" }}
       >
-         <video src={`/video/${document._id}`} width="310" height="174" style={{ background: "black" }}></video>
+         <video src={`/api/video/${document._id}`} width="310" height="174" style={{ background: "black" }}></video>
          <div style={{ padding: "0.5rem", display: "flex", justifyContent: "space-between" }}>
             <span>{document.displayName || document.name}</span>
             <Dropdown overlay={menu} placement="bottomLeft">

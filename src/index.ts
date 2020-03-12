@@ -17,6 +17,7 @@ import classRoutes from './routes/class';
 import codeRoute from './routes/coding';
 import videoRoute from './routes/video';
 import imageRoute from './routes/image';
+import commentRoute from './routes/comment'
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -72,6 +73,7 @@ app.use('/api/class', classRoutes);
 app.use('/api/coding', codeRoute);
 app.use('/api/video', videoRoute);
 app.use('/api/image', imageRoute)
+app.use('/api/comment', commentRoute)
 
 if (config.mode == 'production') {
   app.use(express.static('client/build'))

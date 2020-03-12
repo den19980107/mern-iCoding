@@ -9,6 +9,7 @@
     "bootstrap": "^4.4.1",
     "braft-editor": "^2.3.8",
     "html-to-text": "^5.1.1",
+    "moment": "^2.24.0",
     "prop-types": "^15.6.2",
     "query-string": "^6.10.1",
     "react": "^16.7.0",

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { _get, _post } from './common';
+
 const getCurrentLoginUser = async () => {
    const url = "/api/user/getCurrentLoginUser";
    let res = await _get(url, "api getCurrentLoginUser error")
@@ -80,25 +82,7 @@ const getUserTeachClass = async (userId) => {
    let res = await _get(url, "api getUserTeachClass error")
    return res
 }
-const _get = async (url, message) => {
-   try {
-      const { data } = await axios.get(url)
-      return data
-   } catch (error) {
-      console.log(message, error)
-      return false
-   }
-}
 
-const _post = async (url, data, message) => {
-   try {
-      const { data } = await axios.get(url, data)
-      return data
-   } catch (error) {
-      console.log(message, error)
-      return false
-   }
-}
 export default {
    getCurrentLoginUser,
    updateDisplayName,

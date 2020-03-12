@@ -4,6 +4,8 @@ import './Material.css'
 //import component
 import Loader from '../../components/Loader/Loader'
 import { message, Icon } from 'antd'
+import Comments from '../../components/Comments'
+
 const Material = (props) => {
    const { classId, unitId, materialId } = props.match.params
    const [material, setMaterial] = useState(null)
@@ -32,6 +34,10 @@ const Material = (props) => {
             <div style={{ background: "white", padding: "1rem" }}>
                <div dangerouslySetInnerHTML={{ __html: material.body }} className="body"></div>
             </div>
+            <Comments
+               type="material"
+               belongId={materialId}
+            ></Comments>
          </div>
       )
    } else {
