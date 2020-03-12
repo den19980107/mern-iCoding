@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ClassItem from './ClassItem';
+import Loader from '../../components/Loader/Loader'
 import axios from 'axios';
 import './ClassList.css'
 class ClassList extends Component {
    state = {
-      classDatas: []
+      classDatas: null
    }
    componentDidMount() {
       this.fetchData();
@@ -20,17 +21,23 @@ class ClassList extends Component {
    }
    render() {
       const { classDatas } = this.state
-      return (
-         <div className="row" style={{ margin: "2rem" }} className="class-List-row">
-            {
-               classDatas.map(function (item, i) {
-                  return (
-                     <ClassItem classDatas={item}></ClassItem>
-                  )
-               })
-            }
-         </div>
-      );
+      if (classDatas) {
+         return (
+            <div className="row" style={{ margin: "2rem" }} className="class-List-row">
+               {
+                  classDatas.map(function (item, i) {
+                     return (
+                        <ClassItem classDatas={item}></ClassItem>
+                     )
+                  })
+               }
+            </div>
+         );
+      } else {
+         return (
+            <Loader></Loader>
+         )
+      }
    }
 }
 
