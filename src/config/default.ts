@@ -1,24 +1,24 @@
 const mode = process.env.NODE_ENV || 'development'
 let serverUrl, clientUrl
 if (mode == 'development') {
-   serverUrl = "http://localhost:5000"
-   clientUrl = "http://localhost:3000"
+    serverUrl = "http://localhost:5000"
+    clientUrl = "http://localhost:3000"
 } else if (mode == "production") {
-   // production 時這兩個要依樣 記得！
-   serverUrl = "https://icoding.appspot.com"
-   clientUrl = "https://icoding.appspot.com"
+    // production 時這兩個要依樣 記得！
+    serverUrl = "https://i-coding.herokuapp.com"
+    clientUrl = "https://i-coding.herokuapp.com"
 }
 
 type config = {
-   mode: string,
-   serverUrl: string,
-   clientUrl: string
+    mode: string,
+    serverUrl: string,
+    clientUrl: string
 }
 
 const config: config = {
-   mode: mode,
-   serverUrl: serverUrl,
-   clientUrl: clientUrl
+    mode: mode,
+    serverUrl: serverUrl,
+    clientUrl: clientUrl
 }
 
 
