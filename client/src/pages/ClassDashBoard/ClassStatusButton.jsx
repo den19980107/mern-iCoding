@@ -73,6 +73,9 @@ const ClassStatusButton = ({ user, classData, setIsInClass }) => {
     const toClassManager = () => {
         history.push('/class/' + classData._id + '/classManager')
     }
+    const toMaterial = () => {
+        history.push('/class/' + classData._id + '/material')
+    }
 
     const toTeacherBackEnd = () => {
         history.push('/class/' + classData._id + '/backend')
@@ -90,7 +93,7 @@ const ClassStatusButton = ({ user, classData, setIsInClass }) => {
                 {status == alreadyIn &&
                     <React.Fragment>
                         <Button className="info-button" style={{ background: "red" }} onClick={handleQuitCourse}>退選課程</Button>
-                        <Button className="info-button" icon="file-text">查看教材</Button>
+                        <Button className="info-button" icon="file-text" onClick={toMaterial}>查看教材</Button>
                     </React.Fragment>
                 }
                 {status == inProgress &&
