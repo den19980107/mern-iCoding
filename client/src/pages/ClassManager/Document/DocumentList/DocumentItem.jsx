@@ -44,8 +44,8 @@ const DocumentItem = ({ type, document, updateDocumentList, unitId, isTeacher })
 
 const MaterialCard = ({ document, menu, classData, unitId, isTeacher }) => {
     return (
-        <Card className="documentCard"
-            onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/material/${document._id}`)}
+        <Card
+            className="documentCard"
             title={
                 <div style={{ display: "flex" }}>
                     <div className="iconContainer">
@@ -61,7 +61,7 @@ const MaterialCard = ({ document, menu, classData, unitId, isTeacher }) => {
                     <Icon type="more" className="more" />
                 </Dropdown>
             }>
-            <div className="cardBody">
+            <div className="cardBody" onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/material/${document._id}`)}>
                 {htmlToText.fromString(document.body)}
             </div>
         </Card>
@@ -73,10 +73,12 @@ const VideoCard = ({ document, menu, classData, unitId, isTeacher }) => {
     console.log(document)
     return (
         <div
-            onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/video/${document._id}`)}
             style={{ border: "0.5px solid #ccc", display: "flex", flexDirection: "column", marginRight: "1rem", marginBottom: "1rem" }}
         >
-            <video src={`/api/video/${document._id}`} width="310" height="174" style={{ background: "black" }}></video>
+            <video
+                src={`/api/video/${document._id}`} width="310" height="174" style={{ background: "black" }}
+                onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/video/${document._id}`)}
+            ></video>
             <div style={{ padding: "0.5rem", display: "flex", justifyContent: "space-between" }}>
                 <span>{document.displayName || document.name}</span>
                 {isTeacher &&
@@ -92,10 +94,10 @@ const VideoCard = ({ document, menu, classData, unitId, isTeacher }) => {
 
 const TestCard = ({ document, menu, classData, unitId, isTeacher }) => {
     return (
-        <div
-            onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/test/${document._id}`)}
-        >
-            <div>test card</div>
+        <div>
+            <div
+                onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/test/${document._id}`)}
+            >test card</div>
             <Dropdown overlay={menu} placement="bottomLeft">
                 <Icon type="more" className="more" />
             </Dropdown>
