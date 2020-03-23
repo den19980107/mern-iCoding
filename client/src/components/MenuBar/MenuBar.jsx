@@ -35,13 +35,18 @@ const MenuBar = () => {
 
     const notSticky = {
         fontSize: "20px",
+        boxShadow: "0px 2px 5px rgba(0,0,0,0.27)",
+        position: "relative"
     }
+
     const sticky = {
         fontSize: "20px",
         position: "fixed",
         top: "0",
         width: "100%",
         zIndex: 1000,
+        boxShadow: "0px 2px 5px rgba(0,0,0,0.27)",
+
     }
 
     const NavBarStyle = pageYOffset >= 20 ? sticky : notSticky;

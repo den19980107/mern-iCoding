@@ -100,6 +100,7 @@ const ClassManager = () => {
     return (
         <Layout>
             <Sider
+                style={{ position: "inherit" }}
                 breakpoint="lg"
                 collapsedWidth="0"
                 theme={theme}
