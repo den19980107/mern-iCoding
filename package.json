@@ -38,6 +38,7 @@
         "passport-google-oauth20": "^2.0.0",
         "passport-local": "^1.0.0",
         "passport-twitter": "^1.0.4",
+        "react-avatar-editor": "^12.0.0-beta.0",
         "reactstrap": "^8.4.1",
         "source-map-loader": "^0.2.4"
     },
