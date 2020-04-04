@@ -9,6 +9,7 @@ import Material from '../pages/Material/Material'
 import Video from '../pages/Video/Video'
 import Test from '../pages/Test/Test'
 import BackEnd from '../pages/TeacherBackEnd/TeacherBackEnd'
+import CreateTestPage from '../pages/ClassManager/Document/CreateTestPage/CreateTestPage';
 function ClassContextRoute(props) {
     const classId = props.match.params.id
     return (
@@ -20,7 +21,7 @@ function ClassContextRoute(props) {
             {/* 教師看到的 */}
             <Route exact path="/class/:id/classManager" component={ClassManager}></Route>
             <Route exact path="/class/:id/classManager/unit/:unitId/tab/:tabName" component={ClassManager}></Route>
-
+            <Route exact path="/class/:id/classManager/unit/:unitId/createTest" component={CreateTestPage}></Route>
             {/* 學生看到的 */}
             <Route exact path="/class/:id/material" component={ClassManager}></Route>
             <Route exact path="/class/:id/material/unit/:unitId/tab/:tabName" component={ClassManager}></Route>

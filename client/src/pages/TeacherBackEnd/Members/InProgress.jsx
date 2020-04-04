@@ -31,12 +31,6 @@ function InProgress({ classId, inProccessStudentsData, updateData }) {
             render: (text, record) => <Link to={`/profile?id=${record._id}`}>{text}</Link>
         },
         {
-            title: '學號',
-            dataIndex: 'studentId',
-            key: 'studentId',
-            // render: text => <a>{text}</a>,
-        },
-        {
             title: '帳號',
             dataIndex: 'username',
             key: 'username',

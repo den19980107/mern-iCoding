@@ -68,7 +68,7 @@ const MenuBar = () => {
 
     }
 
-    const NavBarStyle = pageYOffset >= 20 ? sticky : notSticky;
+    const NavBarStyle = pageYOffset >= 10 ? sticky : notSticky;
 
     return (
         <Navbar bg="light" expand="lg" style={NavBarStyle} expanded={navExpanded}>

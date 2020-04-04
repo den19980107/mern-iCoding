@@ -147,7 +147,7 @@ const ClassManager = () => {
                     <div className="contentContainer" style={{ padding: 24, background: '#fff', minHeight: "90vh" }}>
                         {
                             // 檢查是否有目前選到的 unit 了
-                            currentUnit && <Document isTeacher={isTeacher} unit={getUnitById(currentUnit)}></Document>
+                            currentUnit && <Document classId={classData.classInfo._id} isTeacher={isTeacher} unit={getUnitById(currentUnit)}></Document>
                         }
                     </div>
                 </Content>

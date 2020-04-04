@@ -6,9 +6,9 @@ import DocumentSelector from './DocumentSelector/DocumentSelector'
 import DocumentList from './DocumentList/DocumentList'
 import CreateMaterialModal from './CreateMaterialModal/CreateMaterialModal'
 import CreateVideoModal from './CreateVideoModal/CreateVideoModal'
-import CreateTestModal from './CreateTestModal/CreateTestModal'
+import { Link } from 'react-router-dom';
 
-const Document = ({ unit, isTeacher }) => {
+const Document = ({ classId, unit, isTeacher }) => {
     const [currentShowDocumentType, setCurrentDcoumentType] = useState("material")
     const [needUpdateDocument, setNedUpdateDocument] = useState(false)
 
@@ -33,7 +33,9 @@ const Document = ({ unit, isTeacher }) => {
                 <CreateVideoModal unitId={unit._id}></CreateVideoModal>
             </Menu.Item>
             <Menu.Item>
-                <CreateTestModal unitId={unit._id}></CreateTestModal>
+                <div>
+                    <Link style={{ padding: "0.5rem 2rem", color: "#555", textDecoration: "none" }} to={`/class/${classId}/classManager/unit/${unit._id}/createTest`}>測驗</Link>
+                </div>
             </Menu.Item>
         </Menu>
     )
