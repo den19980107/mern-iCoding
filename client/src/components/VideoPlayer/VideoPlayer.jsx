@@ -14,7 +14,7 @@ const actionNames = {
 }
 
 const VideoPlayer = ({ style, src }) => {
-    const videoId = src.split("/")[src.split("/").length - 1]
+    const videoId = src ? src.split("/")[src.split("/").length - 1] : null
     const user = useContext(UserProvider.context);
     const [watcherId, setWatcherId] = useState(null);
     const [videoDomId, setVideoDomId] = useState(`video-player-${uuid()}`);
@@ -29,14 +29,16 @@ const VideoPlayer = ({ style, src }) => {
     }
 
     useEffect(() => {
-        if (user) {
-            setWatcherId(user._id)
-        }
-        setVideoHandler();
-
-        // on unmount
-        return () => {
-            api.analysis.uploadVideoActions(videoId, user._id, actions)
+        // 如果有 video id
+        if (videoId) {
+            if (user) {
+                setWatcherId(user._id)
+            }
+            setVideoHandler();
+            // on unmount
+            return () => {
+                api.analysis.uploadVideoActions(videoId, user._id, actions)
+            }
         }
     }, [user])
 
@@ -82,7 +84,6 @@ const VideoPlayer = ({ style, src }) => {
         const newActions = actions
         setActions(newActions);
     }
-
     return (
         <div>
             <video id={videoDomId} style={style} src={src} controls>
