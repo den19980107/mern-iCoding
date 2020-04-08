@@ -10,22 +10,13 @@ const CreateTestPage = () => {
 
     // test data
     const [testName, setTestName] = useState("");
+    const [questions, setQuestions] = useState([]);
 
-
-    const steps = [
-        {
-            title: 'First',
-            content: <Step1 testName={testName} setTestName={setTestName}></Step1>,
-        },
-        {
-            title: 'Second',
-            content: <Step2></Step2>,
-        },
-        {
-            title: 'Last',
-            content: <Step3></Step3>,
-        },
-    ];
+    const addQuestion = (questionData) => {
+        let newQuestions = [...questions]
+        newQuestions.push(questionData)
+        setQuestions(newQuestions)
+    }
 
     const next = () => {
         setCurrent(current + 1)
@@ -35,6 +26,21 @@ const CreateTestPage = () => {
         setCurrent(current - 1)
 
     }
+
+    const steps = [
+        {
+            title: '設定測驗名稱',
+            content: <Step1 testName={testName} setTestName={setTestName}></Step1>,
+        },
+        {
+            title: '設計測驗',
+            content: <Step2 questions={questions} addQuestion={addQuestion}></Step2>,
+        },
+        {
+            title: '測驗設定',
+            content: <Step3></Step3>,
+        },
+    ];
     return (
         <div className="container mt-3" style={{ maxWidth: "80%" }}>
             <Steps current={current}>
@@ -46,17 +52,17 @@ const CreateTestPage = () => {
             <div className="steps-action">
                 {current < steps.length - 1 && (
                     <Button type="primary" onClick={() => next()}>
-                        Next
+                        下一步
                     </Button>
                 )}
                 {current === steps.length - 1 && (
                     <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        Done
+                        完成
                     </Button>
                 )}
                 {current > 0 && (
                     <Button style={{ marginLeft: 8 }} onClick={() => prev()}>
-                        Previous
+                        上一部
                     </Button>
                 )}
             </div>
