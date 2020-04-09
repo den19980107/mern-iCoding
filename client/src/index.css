@@ -17,3 +17,7 @@ code {
 #root{
   height: 100%;
 }
+
+.braft-modal {
+    z-index: 1001;
+}
