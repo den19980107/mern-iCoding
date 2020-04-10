@@ -5,8 +5,8 @@ if (mode == 'development') {
     clientUrl = "http://localhost:3000"
 } else if (mode == "production") {
     // production 時這兩個要依樣 記得！
-    serverUrl = "http://localhost:5000"
-    clientUrl = "http://localhost:5000"
+    serverUrl = "http://icoding.tk"
+    clientUrl = "http://icodint.tk"
 }
 
 type config = {
