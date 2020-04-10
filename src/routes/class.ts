@@ -7,8 +7,9 @@ import { ReadStream } from 'fs';
 import { StudentTakeCourseModel, StudentTakeCourseStatus, StudentTakeCourse, StudentTakeCourseDocument } from '../models/studentTakeCourse';
 import { UnitDocument, UnitModel, Unit } from '../models/unit';
 import { Material, MaterialModel, MaterialDocument } from '../models/material';
-import { Test, TestModel, TestDocument } from '../models/test';
+import { Test, TestModel, TestDocument } from '../models/test/test';
 import { VideoModel, VideoDocument } from '../models/video';
+import { PostTestFormat } from '../models/test/postTestFormate';
 const router = express.Router();
 const imageUpload = getUploader('image');
 
@@ -514,25 +515,29 @@ router.post('/deleteMaterial/:materialId', async function (req: Request, res: Re
 router.post('/createTest', async function (req: Request, res: Response) {
     // 檢查body
     req.checkBody('unitId', "單元id沒提供！").notEmpty();
-    req.checkBody('name', "測驗名稱不得為空！").notEmpty();
-    req.checkBody('body', "測驗內容不得為空！").notEmpty();
+    req.checkBody('testName', "測驗名稱不得為空！").notEmpty();
+    req.checkBody('questions', "題目不得為空！").notEmpty();
     let errors = req.validationErrors();
     if (errors) {
         res.status(500).json(errors);
         return;
     }
 
+    const body: PostTestFormat = req.body;
     // 建立測驗
-    const name = req.body.name;
-    const unitId = req.body.unitId;
-    const body = req.body.body;
+    const testName = body.testName;
+    const unitId = body.unitId;
+    const questions = body.questions;
+    const startTime = body.startTime;
+    const testTime = body.testTime;
     let newTest: TestDocument = new Test({
-        name: name,
-        unitId: unitId,
-        body: body,
-        uploader: req.user._id
+        testName: testName,
+        belongUnitId: unitId,
+        uploader: req.user.id,
+        startTime: startTime,
+        testTime: testTime
     })
-    let isSuccess = await TestModel.createTest(newTest);
+    let isSuccess = await TestModel.createTest(newTest, questions);
     if (isSuccess) {
         res.status(200).json({ message: "新增測驗成功！" })
     } else {

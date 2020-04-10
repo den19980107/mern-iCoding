@@ -211,12 +211,12 @@ const deleteMaterialById = async (materialId) => {
     return res
 }
 
-const createTest = async (unitId, name, body) => {
+const createTest = async (unitId, body) => {
+    console.log(unitId, body)
     const url = `/api/class/createTest`
     let res = await _post(url, {
+        ...body,
         unitId,
-        name,
-        body
     }, "api createTest error")
     return res
 }
