@@ -9,7 +9,9 @@ export type TestDocument = mongoose.Document & {
     uploader: string,
     belongUnitId: string,
     startTime: Date,
-    testTime: number
+    testTime: number,
+    isAnswerViewable: boolean,
+    isAssistantCorrectable: boolean
 };
 
 let testSchema = new mongoose.Schema({
@@ -30,6 +32,12 @@ let testSchema = new mongoose.Schema({
     },
     testTime: {
         type: Number
+    },
+    isAnswerViewable: {
+        type: Boolean
+    },
+    isAssistantCorrectable: {
+        type: Boolean
     }
 }, { timestamps: true })
 

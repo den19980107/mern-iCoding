@@ -243,6 +243,12 @@ const getTestInUnit = async (unitId) => {
     return res
 }
 
+const getTestById = async (testId) => {
+    const url = `/api/class/getTestById/${testId}`;
+    let res = await _get(url, "api getTestInUnit error")
+    return res
+}
+
 const deleteTestById = async (testId) => {
     const url = `/api/class/deleteTest/${testId}`
     let res = await _post(url, null, "api deleteTestById error")
@@ -306,7 +312,8 @@ export default {
         updateTestName,
         updateTestlBody,
         getTestInUnit,
-        deleteTestById
+        deleteTestById,
+        getTestById
     },
     video: {
         getVideosInUnit,

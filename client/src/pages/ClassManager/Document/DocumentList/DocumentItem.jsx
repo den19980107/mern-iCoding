@@ -3,6 +3,7 @@ import './DocumentItem.css'
 import htmlToText from 'html-to-text'
 import history from '../../../../history'
 import ClassDataProvider from '../../../../context/ClassDataProvider'
+import moment from '../../../../common/moment'
 // import component
 import { Card, Icon, Button, Menu, Dropdown, Modal } from 'antd'
 import RenameModal from './RenameModel/RenameModel'
@@ -94,14 +95,28 @@ const VideoCard = ({ document, menu, classData, unitId, isTeacher }) => {
 
 const TestCard = ({ document, menu, classData, unitId, isTeacher }) => {
     return (
-        <div>
-            <div
-                onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/test/${document._id}`)}
-            >test card</div>
-            <Dropdown overlay={menu} placement="bottomLeft">
-                <Icon type="more" className="more" />
-            </Dropdown>
-        </div>
+        <Card
+            className="documentCard"
+            title={
+                <div style={{ display: "flex" }}>
+                    <div className="iconContainer">
+                        <Icon type="file-text" theme="filled" style={{ color: "#81c784" }} />
+                    </div>
+                    <div className="nameContainer">
+                        <span className="title" style={{ color: "#81c784" }} >{document.testName}</span>
+                    </div>
+                </div>
+            } extra={
+                isTeacher &&
+                <Dropdown overlay={menu} placement="bottomLeft">
+                    <Icon type="more" className="more" />
+                </Dropdown>
+            }>
+            <div className="cardBody" onClick={() => history.push(`/class/${classData._id}/unit/${unitId}/test/${document._id}`)}>
+                <p>測驗時間：{document.testTime ? document.testTime : "未設定"}</p>
+                <p>測驗開放時間：{document.startTime ? moment(document.startTime).startOf('second').fromNow() : "未設定"}</p>
+            </div>
+        </Card>
     )
 }
 

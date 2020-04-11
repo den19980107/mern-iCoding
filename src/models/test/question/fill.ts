@@ -24,6 +24,11 @@ let fillSchema = new mongoose.Schema({
 
 
 export class FillModel extends modelHelper {
+    static async getQuestionData(questionId: string): Promise<any[]> {
+        let fills = await Fill.find({ belongQuestionId: questionId })
+        return fills
+    }
+
     /**
      * 建立選擇題選項
      * @param choice 

@@ -6,7 +6,7 @@ if (mode == 'development') {
 } else if (mode == "production") {
     // production 時這兩個要依樣 記得！
     serverUrl = "http://icoding.tk"
-    clientUrl = "http://icodint.tk"
+    clientUrl = "http://icoding.tk"
 }
 
 type config = {

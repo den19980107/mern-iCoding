@@ -19,6 +19,11 @@ let yesnoSchema = new mongoose.Schema({
 
 
 export class YesNoModel extends modelHelper {
+    static async getQuestionData(questionId: string): Promise<any[]> {
+        let yesNos = await YesNo.find({ belongQuestionId: questionId })
+        return yesNos
+    }
+
     /**
      * 建立選擇題選項
      * @param choice 

@@ -8,6 +8,7 @@ import { Choice } from "./choice";
 import { Code } from "./code";
 import { Fill } from "./fill";
 export type QuestionDocument = mongoose.Document & {
+    order: number,
     belongTestId: string
     name: string,
     description: string,
@@ -15,6 +16,9 @@ export type QuestionDocument = mongoose.Document & {
 };
 
 let questionSchema = new mongoose.Schema({
+    order: {
+        type: Number
+    },
     belongTestId: {
         type: String,
         require: true
@@ -91,6 +95,15 @@ export class QuestionModel extends modelHelper {
         } catch (e) {
             return false
         }
+    }
+
+    /**
+     * 用 testId 取得所有 questions
+     * @param id 
+     */
+    static async getQuestionsByTestId(id: string): Promise<Array<QuestionDocument>> {
+        let questions = await Question.find({ belongTestId: id });
+        return questions
     }
 
     /**

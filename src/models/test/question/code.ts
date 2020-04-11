@@ -25,6 +25,11 @@ let codeSchema = new mongoose.Schema({
 
 
 export class CodeModel extends modelHelper {
+    static async getQuestionData(questionId: string): Promise<any[]> {
+        let codes = await Code.find({ belongQuestionId: questionId })
+        return codes
+    }
+
     /**
      * 建立程式題選項
      * @param choice 

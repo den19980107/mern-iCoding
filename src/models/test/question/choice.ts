@@ -26,8 +26,12 @@ let choiceSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-
 export class ChoiceModel extends modelHelper {
+    static async getQuestionData(questionId: string): Promise<any[]> {
+        let choices = await Choice.find({ belongQuestionId: questionId })
+        return choices
+    }
+
     /**
      * 建立選擇題選項
      * @param choice 

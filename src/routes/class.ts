@@ -9,7 +9,12 @@ import { UnitDocument, UnitModel, Unit } from '../models/unit';
 import { Material, MaterialModel, MaterialDocument } from '../models/material';
 import { Test, TestModel, TestDocument } from '../models/test/test';
 import { VideoModel, VideoDocument } from '../models/video';
-import { PostTestFormat } from '../models/test/postTestFormate';
+import { PostTestFormat, QuestionType, PostQuestion } from '../models/test/postTestFormate';
+import { Question, QuestionModel, QuestionDocument } from '../models/test/question/question';
+import { YesNoModel } from '../models/test/question/yesno';
+import { ChoiceModel } from '../models/test/question/choice';
+import { CodeModel } from '../models/test/question/code';
+import { FillModel } from '../models/test/question/fill';
 const router = express.Router();
 const imageUpload = getUploader('image');
 
@@ -544,6 +549,86 @@ router.post('/createTest', async function (req: Request, res: Response) {
         res.status(500).json({ errors: [{ meg: "新增測驗失敗！" }] })
     }
 })
+
+/**
+ * get test by id
+ */
+router.get('/getTestById/:testId', async (req: Request, res) => {
+    const testId: string = req.params.testId;
+    let test = await TestModel.getTestById(testId);
+    let unit = await UnitModel.getUnitById(test.belongUnitId);
+    let classInfo = await ClassModel.getClassById(unit.belongClassId);
+    const isTeacher = classInfo.teacherId == req.user._id;
+    if (test) {
+        const now = new Date().getTime()
+        const startTime = test.startTime ? test.startTime.getTime() : null;
+        const testTime = test.testTime ? test.testTime * 60 * 1000 : Infinity;
+        // 如果在開放時間內
+        if (isTeacher) {
+            let testData = await formatTestData(testId);
+            res.status(200).json(testData)
+        }
+        else if (!startTime) {
+            res.status(500).json({ errors: [{ msg: "測驗尚未開放！" }] })
+        }
+        else if (now >= startTime && now <= startTime + testTime) {
+            let testData = await formatTestData(testId);
+            res.status(200).json(testData)
+        } else {
+            res.status(500).json({ errors: [{ msg: "測驗尚未開放！" }] })
+        }
+    } else {
+        res.status(500).json({ errors: [{ msg: "無此測驗" }] })
+    }
+})
+
+async function formatTestData(testId: string): Promise<PostTestFormat> {
+    let test = await TestModel.getTestById(testId);
+    let result: PostTestFormat = {
+        testName: test.testName,
+        testTime: test.testTime ? test.testTime.toString() : null,
+        startTime: test.startTime ? test.startTime.toString() : null,
+        unitId: test.belongUnitId,
+        isAnswerViewable: test.isAnswerViewable,
+        isAssistantCorrectable: test.isAssistantCorrectable,
+        questions: []
+    };
+
+    //find questions
+    let questions = await QuestionModel.getQuestionsByTestId(test._id);
+    // sort questions
+    questions = questions.sort((a, b) => {
+        return a.order > b.order ? 1 : -1;
+    });
+    for (let question of questions) {
+        let questionData: PostQuestion = {
+            name: question.name,
+            description: question.description,
+            type: null,
+            data: null
+        }
+        switch (question.type) {
+            case QuestionType.YesNo:
+                questionData.type = QuestionType.YesNo
+                questionData.data = await YesNoModel.getQuestionData(question._id)
+                break;
+            case QuestionType.choice:
+                questionData.type = QuestionType.choice
+                questionData.data = await ChoiceModel.getQuestionData(question._id)
+                break;
+            case QuestionType.code:
+                questionData.type = QuestionType.code
+                questionData.data = await CodeModel.getQuestionData(question._id)
+                break;
+            case QuestionType.fill:
+                questionData.type = QuestionType.fill
+                questionData.data = await FillModel.getQuestionData(question._id)
+                break;
+        }
+        result.questions.push(questionData)
+    }
+    return result
+}
 
 /**
  * 更新測驗名稱

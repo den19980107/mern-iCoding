@@ -1,6 +1,7 @@
 import React from 'react';
 import { Steps, Button, message } from 'antd';
 import { useState } from 'react';
+import history from '../../../../history'
 import api from '../../../../api/index'
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
@@ -8,11 +9,11 @@ import Step3 from './steps/step3';
 const { Step } = Steps;
 const CreateTestPage = (props) => {
     const [current, setCurrent] = useState(0);
-    const { unitId } = props.match.params
+    const { unitId, classId } = props.match.params
     // test data
     const [testName, setTestName] = useState("");
     const [questions, setQuestions] = useState([]);
-    const [testTime, setTestTime] = useState(null);
+    const [testTime, setTestTime] = useState(30);
     const [startTime, setStartTime] = useState(null);
     const [isAssistantCorrectable, setIsAssistantCorrectable] = useState(false);
     const [isAnswerViewable, setIsAnserViewAble] = useState(false)
@@ -35,6 +36,7 @@ const CreateTestPage = (props) => {
         })
         if (isSuccess) {
             message.success("新增成功！")
+            history.push(`/class/${classId}/classManager`)
         }
     }
 
